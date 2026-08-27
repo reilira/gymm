@@ -3,173 +3,215 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>FORJA — Entrenamiento</title>
+<title>FORJA — Rutina semanal</title>
+<script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap');
-
   :root{
     --bg:#17181C; --panel:#1D1E23; --panel2:#25262C; --border:#34353B;
     --text:#EDEBE4; --dim:#93959D; --molten:#FF5A33; --moltenDeep:#C9391A;
     --amber:#FFB020; --sage:#7BD79C;
   }
-  * { box-sizing: border-box; margin:0; padding:0; font-family:'Inter',sans-serif; }
-  html,body{ background:var(--bg); color:var(--text); }
-  select option{ background:var(--panel); color:var(--text); }
+  * { box-sizing:border-box; margin:0; padding:0; font-family:'Inter',sans-serif; }
+  html,body{ background:var(--bg); color:var(--text); min-height:100vh; }
   button{ font-family:'Inter',sans-serif; }
-  button:focus-visible{ outline:2px solid var(--amber); outline-offset:2px; }
-  ::-webkit-scrollbar{ width:8px; height:8px; }
-  ::-webkit-scrollbar-thumb{ background:var(--border); border-radius:99px; }
+  select, input{ font-family:'Inter',sans-serif; }
   .mono{ font-family:'IBM Plex Mono',monospace; }
   .display{ font-family:'Oswald',sans-serif; }
+  ::-webkit-scrollbar{ width:8px; height:8px; }
+  ::-webkit-scrollbar-thumb{ background:var(--border); border-radius:99px; }
 
-  .app{ width:100%; min-height:100vh; display:flex; }
-  .sidebar{ display:flex; flex-direction:column; justify-content:space-between; padding:20px; flex-shrink:0; width:200px; border-right:1px solid var(--border); }
-  .brand{ display:flex; align-items:center; gap:8px; margin-bottom:40px; }
+  .wrap{ max-width:720px; margin:0 auto; padding:40px 20px 80px; }
+  .brand{ display:flex; align-items:center; gap:8px; margin-bottom:28px; }
   .brand-mark{ width:26px; height:26px; border-radius:6px; background:linear-gradient(160deg,#FFB020,#FF5A33); }
   .brand-name{ font-size:18px; letter-spacing:.04em; }
-  .nav{ display:flex; flex-direction:column; gap:4px; }
-  .nav-btn{ display:flex; align-items:center; gap:12px; padding:8px 12px; border-radius:8px; text-align:left; background:transparent; color:var(--dim); border:none; cursor:pointer; font-size:13px; font-weight:500; }
-  .nav-btn.active{ background:var(--panel); color:var(--text); }
-  .nav-btn svg{ flex-shrink:0; }
-  .profile{ display:flex; align-items:center; gap:8px; }
-  .avatar{ width:30px; height:30px; border-radius:99px; background:var(--panel2); border:1px solid var(--border); }
-  .profile-name{ font-size:12px; font-weight:600; }
-  .profile-sub{ font-size:10px; color:var(--dim); }
 
-  .main{ flex:1; padding:40px; overflow:auto; }
-  .screen{ max-width:760px; }
-  .eyebrow{ font-family:'IBM Plex Mono',monospace; color:var(--amber); font-size:11px; letter-spacing:.18em; text-transform:uppercase; margin-bottom:8px; }
-  h1.title{ font-family:'Oswald',sans-serif; font-size:32px; font-weight:600; letter-spacing:.01em; text-transform:uppercase; }
-  h1.title.small{ font-size:26px; }
-  .subtitle{ color:var(--dim); margin-top:6px; font-size:14px; max-width:520px; }
+  .weekday-tabs{ display:flex; gap:6px; overflow-x:auto; padding-bottom:4px; }
+  .weekday-tab{ flex:1; min-width:74px; padding:10px 6px; border-radius:8px; background:var(--panel); border:1px solid var(--border); color:var(--dim); cursor:pointer; text-align:center; }
+  .weekday-tab.active{ background:var(--molten); color:#fff; border-color:var(--molten); }
+  .weekday-tab .wd-label{ font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600; text-transform:uppercase; }
+  .weekday-tab .wd-type{ font-size:9px; margin-top:3px; opacity:.75; }
+  .weekday-tab .today-dot{ width:4px; height:4px; border-radius:99px; background:var(--amber); margin:4px auto 0; }
+  .weekday-tab.active .today-dot{ background:#fff; }
 
-  .week-strip{ display:flex; gap:8px; margin-top:24px; }
-  .day-chip{ flex:1; border-radius:8px; padding:12px 8px; text-align:center; background:var(--panel); border:1px solid var(--border); }
-  .day-chip.today{ background:linear-gradient(160deg,#C9391A,#FF5A33); border-color:var(--molten); }
-  .day-label{ font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--dim); font-weight:600; }
-  .day-chip.today .day-label{ color:#fff; }
-  .day-dot-row{ margin-top:8px; display:flex; justify-content:center; }
-  .dot{ width:4px; height:4px; border-radius:99px; background:var(--border); }
-  .dot.dim{ background:var(--dim); }
+  .eyebrow{ font-family:'IBM Plex Mono',monospace; color:var(--amber); font-size:11px; letter-spacing:.18em; text-transform:uppercase; margin-bottom:6px; }
+  h1.title{ font-family:'Oswald',sans-serif; font-size:28px; font-weight:600; letter-spacing:.01em; text-transform:uppercase; }
+  .subtitle{ color:var(--dim); margin-top:6px; font-size:13px; }
 
-  .stat-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:24px; }
-  .stat-chip{ display:flex; align-items:center; gap:12px; padding:12px 16px; border-radius:8px; background:var(--panel); border:1px solid var(--border); }
-  .stat-value{ font-family:'IBM Plex Mono',monospace; font-size:18px; font-weight:600; line-height:1; }
-  .stat-label{ font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--dim); letter-spacing:.08em; text-transform:uppercase; margin-top:4px; }
+  .rest-banner{ margin-top:24px; padding:20px; border-radius:12px; background:var(--panel); border:1px dashed var(--border); color:var(--dim); font-size:14px; text-align:center; }
 
-  .day-tabs{ display:flex; gap:8px; margin-top:28px; flex-wrap:wrap; }
-  .day-tab{ padding:8px 14px; border-radius:8px; background:var(--panel); border:1px solid var(--border); color:var(--dim); font-size:12px; font-weight:600; cursor:pointer; font-family:'IBM Plex Mono',monospace; display:flex; align-items:center; gap:6px; }
-  .day-tab.active{ background:var(--molten); color:#fff; border-color:var(--molten); }
-  .day-tab .today-dot{ width:5px; height:5px; border-radius:99px; background:var(--amber); }
-  .day-tab.active .today-dot{ background:#fff; }
+  .add-panel{ margin-top:24px; padding:14px; border-radius:10px; background:var(--panel); border:1px solid var(--border); }
+  .add-row{ display:flex; gap:8px; flex-wrap:wrap; }
+  .add-select, .add-input{ flex:1; min-width:120px; padding:8px 10px; border-radius:8px; background:var(--panel2); border:1px solid var(--border); color:var(--text); font-size:13px; outline:none; }
+  select.add-select option{ background:var(--panel2); color:var(--text); }
+  .btn{ padding:8px 14px; border-radius:8px; border:none; font-size:13px; font-weight:600; cursor:pointer; }
+  .btn-molten{ background:var(--molten); color:#fff; }
+  .btn-ghost{ background:var(--panel2); color:var(--dim); }
+  .toggle-link{ background:none; border:none; color:var(--amber); font-size:12px; cursor:pointer; margin-top:10px; font-family:'IBM Plex Mono',monospace; }
+  .custom-form{ margin-top:12px; display:flex; flex-direction:column; gap:8px; }
+  .custom-form-row{ display:flex; gap:8px; flex-wrap:wrap; }
+  .custom-form-row .add-input{ min-width:90px; }
 
-  .section-label{ font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--dim); letter-spacing:.1em; text-transform:uppercase; margin:24px 0 12px; }
-  .picker-row{ display:flex; gap:8px; margin-bottom:16px; }
-  .picker-select{ flex:1; padding:8px 12px; border-radius:8px; background:var(--panel); border:1px solid var(--border); color:var(--dim); font-size:13px; outline:none; }
-  .picker-select.filled{ color:var(--text); }
-  .add-btn{ display:flex; align-items:center; gap:4px; padding:8px 16px; border-radius:8px; flex-shrink:0; background:var(--panel2); color:var(--dim); border:none; font-size:13px; font-weight:600; cursor:default; }
-  .add-btn.enabled{ background:var(--molten); color:#fff; cursor:pointer; }
+  .section-label{ font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--dim); letter-spacing:.1em; text-transform:uppercase; margin:24px 0 10px; }
 
-  .exercise-list{ display:flex; flex-direction:column; gap:8px; }
-  .exercise-row{ display:flex; align-items:center; gap:16px; padding:10px 14px; border-radius:8px; text-align:left; width:100%; background:var(--panel); border:1px solid var(--border); cursor:pointer; }
-  .pictogram-box{ border-radius:6px; display:flex; align-items:center; justify-content:center; flex-shrink:0; width:56px; height:56px; background:var(--panel2); }
-  .ex-name{ font-size:15px; font-weight:600; }
-  .ex-sub{ color:var(--dim); font-size:12px; margin-top:2px; }
+  .exercise-card{ background:var(--panel); border:1px solid var(--border); border-radius:10px; margin-bottom:10px; overflow:hidden; }
+  .exercise-row{ display:flex; align-items:center; gap:14px; padding:12px; cursor:pointer; }
+  .pictogram-box{ border-radius:6px; display:flex; align-items:center; justify-content:center; flex-shrink:0; width:52px; height:52px; background:var(--panel2); }
+  .ex-name{ font-size:14px; font-weight:600; }
+  .ex-sub{ color:var(--dim); font-size:11px; margin-top:2px; }
   .ex-right{ text-align:right; flex-shrink:0; font-family:'IBM Plex Mono',monospace; }
-  .ex-right-main{ color:var(--amber); font-size:16px; font-weight:600; }
-  .ex-right-sub{ color:var(--dim); font-size:11px; margin-top:2px; }
-  .custom-tag{ font-size:9px; color:var(--amber); border:1px solid var(--amber); border-radius:4px; padding:1px 4px; margin-left:6px; letter-spacing:.05em; }
+  .ex-right-main{ color:var(--amber); font-size:15px; font-weight:600; }
+  .ex-right-sub{ color:var(--dim); font-size:10px; margin-top:2px; }
+  .custom-tag{ font-size:9px; color:var(--amber); border:1px solid var(--amber); border-radius:4px; padding:1px 4px; margin-left:6px; }
+  .remove-x{ background:none; border:none; color:var(--dim); font-size:16px; cursor:pointer; padding:0 6px; }
 
-  .back-btn{ display:flex; align-items:center; gap:4px; margin-bottom:20px; color:var(--dim); font-size:13px; background:none; border:none; cursor:pointer; }
-  .ex-header{ display:flex; gap:24px; flex-wrap:wrap; }
-  .ex-illustration{ flex-shrink:0; border-radius:12px; display:flex; align-items:center; justify-content:center; width:160px; height:190px; background:radial-gradient(circle at 30% 20%,#2A2B31,#1D1E23); border:1px solid var(--border); }
-  .ex-info{ flex:1; min-width:240px; }
-  .ex-desc{ color:var(--dim); font-size:13px; margin-top:6px; max-width:420px; }
-  .ex-stats{ display:flex; gap:12px; margin-top:16px; }
-  .ex-stat-num{ color:var(--amber); font-size:20px; font-weight:600; }
-  .ex-stat-label{ color:var(--dim); font-size:10px; text-transform:uppercase; }
-  .divider-v{ width:1px; background:var(--border); }
-
-  .set-table{ margin-top:32px; border-radius:12px; overflow:hidden; border:1px solid var(--border); }
-  .set-head, .set-row{ display:grid; grid-template-columns:0.7fr 1.3fr 0.8fr 1fr 0.8fr; align-items:center; padding:10px 16px; }
-  .set-head{ background:var(--panel2); font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--dim); text-transform:uppercase; letter-spacing:.06em; padding:8px 16px; }
-  .set-row{ background:var(--panel); border-top:1px solid var(--border); }
-  .set-num{ font-family:'IBM Plex Mono',monospace; font-size:14px; }
-  .set-prev{ font-family:'IBM Plex Mono',monospace; color:var(--dim); font-size:12px; }
-  .set-input{ font-family:'IBM Plex Mono',monospace; padding:4px 8px; border-radius:4px; background:var(--panel2); border:1px solid var(--border); color:var(--amber); font-size:13px; width:90%; }
+  .exercise-detail{ border-top:1px solid var(--border); padding:16px; }
+  .set-table{ border-radius:8px; overflow:hidden; border:1px solid var(--border); }
+  .set-head, .set-row{ display:grid; grid-template-columns:0.6fr 1fr 1fr 0.7fr; align-items:center; padding:8px 12px; }
+  .set-head{ background:var(--panel2); font-family:'IBM Plex Mono',monospace; font-size:9px; color:var(--dim); text-transform:uppercase; letter-spacing:.05em; }
+  .set-row{ background:var(--bg); border-top:1px solid var(--border); }
+  .set-num{ font-family:'IBM Plex Mono',monospace; font-size:13px; }
+  .set-input{ font-family:'IBM Plex Mono',monospace; padding:4px 6px; border-radius:4px; background:var(--panel2); border:1px solid var(--border); color:var(--amber); font-size:12px; width:85%; }
   .set-done-cell{ display:flex; justify-content:flex-end; }
-  .set-check{ display:flex; align-items:center; justify-content:center; border-radius:6px; width:30px; height:30px; background:transparent; border:1.5px solid var(--border); cursor:pointer; }
+  .set-check{ display:flex; align-items:center; justify-content:center; border-radius:6px; width:26px; height:26px; background:transparent; border:1.5px solid var(--border); cursor:pointer; color:#14161A; font-weight:700; font-size:12px; }
   .set-check.done{ background:var(--sage); border-color:var(--sage); }
-  .set-hint{ display:flex; align-items:center; gap:4px; padding:8px 16px; font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--dim); border-top:1px solid var(--border); }
 
-  .timer-card{ margin-top:24px; display:flex; align-items:center; gap:20px; padding:20px; border-radius:12px; background:var(--panel); border:1px solid var(--border); flex-wrap:wrap; }
-  .timer-ring-wrap{ position:relative; width:84px; height:84px; }
-  .timer-text{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Mono',monospace; font-size:16px; font-weight:600; }
-  .timer-info{ flex:1; min-width:140px; }
-  .timer-title{ font-size:14px; font-weight:600; }
-  .timer-sub{ color:var(--dim); font-size:12px; margin-top:2px; }
-  .timer-btn{ display:flex; align-items:center; gap:8px; padding:8px 16px; border-radius:8px; background:var(--molten); color:#fff; border:none; font-size:13px; font-weight:600; cursor:pointer; }
-  .timer-btn.resting{ background:var(--panel2); color:var(--text); }
-  .reset-btn{ background:none; border:none; cursor:pointer; color:var(--dim); }
+  .timer-card{ margin-top:16px; display:flex; align-items:center; gap:16px; padding:14px; border-radius:10px; background:var(--panel2); flex-wrap:wrap; }
+  .timer-ring-wrap{ position:relative; width:64px; height:64px; flex-shrink:0; }
+  .timer-text{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:600; }
+  .timer-info{ flex:1; min-width:120px; font-size:12px; color:var(--dim); }
+  .timer-btn{ display:flex; align-items:center; gap:6px; padding:7px 12px; border-radius:8px; background:var(--molten); color:#fff; border:none; font-size:12px; font-weight:600; cursor:pointer; }
+  .timer-btn.resting{ background:var(--panel); color:var(--text); }
+  .reset-btn{ background:none; border:none; cursor:pointer; color:var(--dim); font-size:14px; }
 
-  .chart-card{ margin-top:32px; padding:20px; border-radius:12px; background:var(--panel); border:1px solid var(--border); }
-  .chart-head{ display:flex; align-items:baseline; justify-content:space-between; margin-bottom:8px; }
-  .chart-title{ font-size:14px; font-weight:600; }
-  .chart-value{ font-family:'IBM Plex Mono',monospace; color:var(--amber); font-size:20px; font-weight:600; }
-
-  .record-row{ display:flex; align-items:center; gap:16px; padding:10px 14px; border-radius:8px; background:var(--panel); border:1px solid var(--border); }
-  .record-name{ font-size:14px; font-weight:600; }
-  .record-date{ color:var(--dim); font-size:11px; margin-top:2px; }
-  .pr-badge{ display:flex; align-items:center; gap:4px; padding:4px 8px; border-radius:4px; background:rgba(255,90,51,.12); }
-  .pr-text{ font-family:'IBM Plex Mono',monospace; color:var(--molten); font-size:10px; font-weight:700; }
-  .record-weight{ font-family:'IBM Plex Mono',monospace; color:var(--amber); font-size:16px; font-weight:600; min-width:70px; text-align:right; }
-
-  .cal-grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:6px; margin-top:16px; }
-  .cal-dow-row{ margin-top:24px; }
-  .cal-dow{ text-align:center; font-size:10px; color:var(--dim); letter-spacing:.08em; text-transform:uppercase; padding-bottom:4px; }
-  .cal-cell{ border-radius:8px; padding:8px 6px; background:var(--panel); border:1px solid var(--border); min-height:64px; display:flex; flex-direction:column; gap:4px; }
-  .cal-cell.empty{ background:transparent; border:none; }
-  .cal-cell.today{ background:linear-gradient(160deg,#C9391A,#FF5A33); border-color:var(--molten); }
-  .cal-num{ font-size:12px; font-weight:600; }
-  .cal-cell.today .cal-num{ color:#fff; }
-  .cal-focus{ font-size:10px; color:var(--dim); line-height:1.2; flex:1; }
-  .cal-cell.today .cal-focus{ color:rgba(255,255,255,.85); }
-  .cal-dot-row{ display:flex; }
-
-  .legend-row{ display:flex; gap:16px; margin-top:16px; flex-wrap:wrap; }
-  .legend-item{ display:flex; align-items:center; gap:6px; font-size:11px; color:var(--dim); font-family:'IBM Plex Mono',monospace; }
-  .legend-swatch{ width:10px; height:10px; border-radius:3px; }
-
-  @media (max-width:640px){ .sidebar{ display:none; } .main{ padding:24px; } .cal-focus{ display:none; } .cal-cell{ min-height:auto; } }
+  .footnote{ margin-top:32px; font-size:11px; color:var(--dim); line-height:1.5; }
 </style>
 </head>
 <body>
-<div class="app">
-  <div class="sidebar" id="sidebar"></div>
-  <div class="main" id="main"></div>
+<div class="wrap" x-data="app()" x-init="init()">
+
+  <div class="brand"><div class="brand-mark"></div><span class="display brand-name">FORJA</span></div>
+
+  <div class="weekday-tabs">
+    <template x-for="w in weekdays" :key="w.key">
+      <button type="button" class="weekday-tab" :class="activeWeekdayKey===w.key ? 'active' : ''" @click="activeWeekdayKey=w.key">
+        <div class="wd-label" x-text="w.label"></div>
+        <div class="wd-type" x-text="w.type ? dayTypes[w.type].title : 'Descanso'"></div>
+        <div class="today-dot" x-show="w.key===todayKey"></div>
+      </button>
+    </template>
+  </div>
+
+  <template x-if="activeType">
+    <div>
+      <div class="eyebrow" x-text="activeWeekday.label"></div>
+      <h1 class="display title" x-text="dayTypes[activeType].title"></h1>
+      <p class="subtitle" x-text="activeExercises.length + ' ejercicios · ~' + (activeExercises.length*13) + ' min'"></p>
+
+      <div class="add-panel">
+        <div class="add-row">
+          <select class="add-select" x-model="libraryPick">
+            <option value="">+ Agregar ejercicio de la biblioteca…</option>
+            <template x-for="lib in libraryOptions" :key="lib.name">
+              <option :value="lib.name" x-text="lib.name + ' · ' + lib.muscleLabel"></option>
+            </template>
+          </select>
+          <button type="button" class="btn btn-molten" :disabled="!libraryPick" @click="addFromLibrary()">Agregar</button>
+        </div>
+
+        <button type="button" class="toggle-link" @click="showAddForm=!showAddForm" x-text="showAddForm ? '– Cancelar ejercicio personalizado' : '+ Crear ejercicio personalizado'"></button>
+
+        <div class="custom-form" x-show="showAddForm">
+          <div class="custom-form-row">
+            <input class="add-input" placeholder="Nombre del ejercicio" x-model="newEx.name">
+            <input class="add-input" placeholder="Músculo (ej. Antebrazo)" x-model="newEx.muscleLabel">
+          </div>
+          <div class="custom-form-row">
+            <input class="add-input" type="number" min="1" placeholder="Series" x-model="newEx.sets">
+            <input class="add-input" placeholder="Reps (ej. 10 a 12)" x-model="newEx.reps">
+            <input class="add-input" placeholder="Peso (ej. 20 kg)" x-model="newEx.weight">
+          </div>
+          <button type="button" class="btn btn-molten" style="align-self:flex-start" @click="addCustom()">Guardar ejercicio</button>
+        </div>
+      </div>
+
+      <div class="section-label">Ejercicios de hoy</div>
+
+      <div>
+        <template x-for="exr in activeExercises" :key="exr.id">
+          <div class="exercise-card" x-data="exerciseCard(exr)">
+            <div class="exercise-row" @click="toggleOpen()">
+              <div class="pictogram-box" x-html="exr.pictogramSvg"></div>
+              <div style="flex:1;min-width:0;">
+                <div class="ex-name">
+                  <span x-text="exr.name"></span>
+                  <span class="custom-tag" x-show="exr.custom">EXTRA</span>
+                </div>
+                <div class="ex-sub" x-text="exr.muscleLabel + ' · ' + exr.equip"></div>
+              </div>
+              <div class="ex-right mono">
+                <div class="ex-right-main" x-text="doneCount() + '/' + rows.length"></div>
+                <div class="ex-right-sub" x-text="exr.reps + ' · ' + exr.weight"></div>
+              </div>
+              <button type="button" class="remove-x" x-show="exr.custom" @click.stop="$root.removeCustom(exr.id)">×</button>
+            </div>
+
+            <div class="exercise-detail" x-show="open" x-collapse>
+              <div class="set-table">
+                <div class="set-head">Serie<span>Reps</span><span>Peso</span><span style="text-align:right">Hecha</span></div>
+                <template x-for="(row, i) in rows" :key="i">
+                  <div class="set-row">
+                    <div class="set-num mono" x-text="String(i+1).padStart(2,'0')"></div>
+                    <input class="set-input" x-model="row.reps">
+                    <input class="set-input" x-model="row.weight">
+                    <div class="set-done-cell">
+                      <button type="button" class="set-check" :class="row.done ? 'done' : ''" @click="toggleSet(i)">
+                        <span x-show="row.done">✓</span>
+                      </button>
+                    </div>
+                  </div>
+                </template>
+              </div>
+
+              <div class="timer-card">
+                <div class="timer-ring-wrap">
+                  <svg width="64" height="64" style="transform:rotate(-90deg)">
+                    <circle cx="32" cy="32" r="27" stroke="#1D1E23" stroke-width="5" fill="none"/>
+                    <circle cx="32" cy="32" r="27" stroke="#FF5A33" stroke-width="5" fill="none"
+                      :stroke-dasharray="circumference" :stroke-dashoffset="dashOffset()"
+                      stroke-linecap="round" style="transition:stroke-dashoffset 1s linear"/>
+                  </svg>
+                  <div class="timer-text mono" x-text="secondsLeft + 's'"></div>
+                </div>
+                <div class="timer-info">Descanso entre series · 90s recomendados</div>
+                <button type="button" class="timer-btn" :class="resting ? 'resting' : ''" @click="resting ? pause() : start()">
+                  <span x-text="resting ? 'Pausar' : 'Iniciar'"></span>
+                </button>
+                <button type="button" class="reset-btn" @click="reset()">↺</button>
+              </div>
+            </div>
+          </div>
+        </template>
+      </div>
+    </div>
+  </template>
+
+  <template x-if="!activeType">
+    <div class="rest-banner">Domingo — día de descanso. Sin ejercicios programados.</div>
+  </template>
+
+  <div class="footnote">
+    Los ejercicios agregados se guardan en este navegador (localStorage) y quedan disponibles la próxima vez que abras la página.
+    Las series marcadas como hechas se resetean al recargar — pensadas para guiarte durante la sesión, no como historial.
+  </div>
+
 </div>
 
 <script>
-/* ============== ICONS (UI, no muscle content) ============== */
-const ICONS = {
-  chevronLeft: (c='currentColor',s=16)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>`,
-  flame: (c='currentColor',s=16)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c1 3-2 4-2 7a4 4 0 0 0 8 0c0-1-.5-2-1-3 2 1 3 3 3 6a6 6 0 0 1-12 0c0-4 2-6 4-10z"/></svg>`,
-  dumbbell: (c='currentColor',s=16)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5l11 11M4 8l3-3M20 16l-3 3M2 12l2-2M20 12l2 2M8.5 4.5l-2 2M15.5 19.5l2-2"/></svg>`,
-  trendingUp: (c='currentColor',s=16)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>`,
-  layoutGrid: (c='currentColor',s=16)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>`,
-  calendar: (c='currentColor',s=16)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`,
-  trophy: (c='currentColor',s=16)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4z"/><path d="M17 5h3a2 2 0 0 1-2 4M7 5H4a2 2 0 0 0 2 4"/></svg>`,
-  play: (c='currentColor',s=16)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>`,
-  pause: (c='currentColor',s=16)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>`,
-  rotateCcw: (c='currentColor',s=16)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>`,
-  check: (c='currentColor',s=16)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`,
-  plus: (c='currentColor',s=16)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>`,
-  pencil: (c='currentColor',s=16)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>`,
-};
-
-/* ============== ANATOMICAL PICTOGRAM (silueta con grupo muscular resaltado) ============== */
+/* ============== PICTOGRAMA ANATÓMICO ============== */
 let gradCounter = 0;
-function nextGradId(){ return 'moltenGrad' + (gradCounter++); }
+function nextGradId(){ return 'g' + (gradCounter++); }
 
 const PARTS_FRONT = [
   {id:'head',      el:`<circle cx="30" cy="10" r="8" fill="__FILL__" stroke="__STROKE__" stroke-width="1.5"/>`},
@@ -182,14 +224,11 @@ const PARTS_FRONT = [
   {id:'bicepR',    el:`<rect x="45" y="27" width="8" height="18" rx="4" fill="__FILL__" stroke="__STROKE__" stroke-width="1.5"/>`},
   {id:'forearmL',  el:`<rect x="6" y="45" width="7" height="16" rx="3" fill="__FILL__" stroke="__STROKE__" stroke-width="1.5"/>`},
   {id:'forearmR',  el:`<rect x="47" y="45" width="7" height="16" rx="3" fill="__FILL__" stroke="__STROKE__" stroke-width="1.5"/>`},
-  {id:'adductorL', el:`<path d="M27,50 L30,50 L29,60 L27.5,60 Z" fill="__FILL__" stroke="__STROKE__" stroke-width="1.2"/>`},
-  {id:'adductorR', el:`<path d="M30,50 L33,50 L32.5,60 L31,60 Z" fill="__FILL__" stroke="__STROKE__" stroke-width="1.2"/>`},
   {id:'quadL',     el:`<rect x="19" y="50" width="9" height="24" rx="4" fill="__FILL__" stroke="__STROKE__" stroke-width="1.5"/>`},
   {id:'quadR',     el:`<rect x="32" y="50" width="9" height="24" rx="4" fill="__FILL__" stroke="__STROKE__" stroke-width="1.5"/>`},
   {id:'calfL',     el:`<rect x="20" y="76" width="7" height="20" rx="3" fill="__FILL__" stroke="__STROKE__" stroke-width="1.5"/>`},
   {id:'calfR',     el:`<rect x="33" y="76" width="7" height="20" rx="3" fill="__FILL__" stroke="__STROKE__" stroke-width="1.5"/>`},
 ];
-
 const PARTS_BACK = [
   {id:'head',      el:`<circle cx="30" cy="10" r="8" fill="__FILL__" stroke="__STROKE__" stroke-width="1.5"/>`},
   {id:'neck',      el:`<rect x="27" y="17" width="6" height="4" fill="__FILL__" stroke="__STROKE__" stroke-width="1"/>`},
@@ -206,14 +245,13 @@ const PARTS_BACK = [
   {id:'calfL',     el:`<rect x="20" y="76" width="7" height="20" rx="3" fill="__FILL__" stroke="__STROKE__" stroke-width="1.5"/>`},
   {id:'calfR',     el:`<rect x="33" y="76" width="7" height="20" rx="3" fill="__FILL__" stroke="__STROKE__" stroke-width="1.5"/>`},
 ];
-
-function bodyFigure(view, highlights=[], size=56){
+function bodyFigure(view, highlights=[], size=48){
   const gid = nextGradId();
   const parts = view === 'back' ? PARTS_BACK : PARTS_FRONT;
   const shapes = parts.map(p=>{
     const hi = highlights.includes(p.id);
-    const fill = hi ? `url(#${gid})` : 'var(--panel2)';
-    const stroke = hi ? 'none' : 'var(--border)';
+    const fill = hi ? `url(#${gid})` : '#25262C';
+    const stroke = hi ? 'none' : '#34353B';
     return p.el.replaceAll('__FILL__', fill).replaceAll('__STROKE__', stroke);
   }).join('');
   const h = Math.round(size * 100 / 60);
@@ -222,501 +260,173 @@ function bodyFigure(view, highlights=[], size=56){
     ${shapes}
   </svg>`;
 }
+function genericIconSvg(){
+  return `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#93959D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6.5 6.5l11 11M4 8l3-3M20 16l-3 3M2 12l2-2M20 12l2 2M8.5 4.5l-2 2M15.5 19.5l2-2"/></svg>`;
+}
 
-const MUSCLE_LABELS = {
-  chest:'Pecho', back:'Espalda', bicepL:'Bíceps', bicepR:'Bíceps', tricepL:'Tríceps', tricepR:'Tríceps',
-  shoulderL:'Hombros', shoulderR:'Hombros', quadL:'Cuádriceps', quadR:'Cuádriceps',
-  hamL:'Isquios', hamR:'Isquios', glutes:'Glúteos', adductorL:'Aductores', adductorR:'Aductores', abs:'Abdomen'
+/* ============== DATOS: 3 tipos de día ============== */
+function ex(name,muscleLabel,view,highlight,equip,sets,reps,weight){
+  return { id:'base_'+name.replace(/\s+/g,'_').toLowerCase(), name, muscleLabel, view, highlight, equip, sets, reps, weight,
+    pictogramSvg: bodyFigure(view,highlight,44) };
+}
+
+const DAY_TYPES = {
+  A: { title:'Pecho, hombro y tríceps', exercises:[
+    ex('Press de banca','Pecho','front',['chest'],'Barra',3,'10 a 12','60 kg'),
+    ex('Press de banca inclinado','Pecho','front',['chest','shoulderL','shoulderR'],'Mancuernas',3,'10 a 12','22 kg'),
+    ex('Elevación lateral','Hombros','front',['shoulderL','shoulderR'],'Mancuernas',3,'10 a 12','10 kg'),
+    ex('Desarrollo militar','Hombros','front',['shoulderL','shoulderR'],'Mancuernas',3,'10 a 12','16 kg'),
+    ex('Tríceps cuerda','Tríceps','back',['tricepL','tricepR'],'Polea',3,'10 a 12','25 kg'),
+    ex('Tríceps francés','Tríceps','back',['tricepL','tricepR'],'Mancuerna',3,'10 a 12','14 kg'),
+  ]},
+  B: { title:'Espalda y bíceps', exercises:[
+    ex('Remada curvada','Espalda','back',['back'],'Mancuerna',3,'10 a 12','24 kg'),
+    ex('Remada abierta','Espalda','back',['back'],'Polea',3,'10 a 12','45 kg'),
+    ex('Tirada abierta','Espalda','back',['back'],'Polea',3,'10 a 12','50 kg'),
+    ex('Rosca directa','Bíceps','front',['bicepL','bicepR'],'Barra',3,'10 a 12','22 kg'),
+    ex('Rosca martillo','Bíceps','front',['bicepL','bicepR'],'Mancuernas',3,'10 a 12','14 kg'),
+    ex('Rosca scott','Bíceps','front',['bicepL','bicepR'],'Barra Z',3,'10 a 12','20 kg'),
+  ]},
+  C: { title:'Pierna y hombros', exercises:[
+    ex('Hack en cuclillas','Cuádriceps','front',['quadL','quadR'],'Máquina',3,'10 a 12','80 kg'),
+    ex('Silla extensora','Cuádriceps','front',['quadL','quadR'],'Máquina',3,'10 a 12','40 kg'),
+    ex('Mesa flexora','Isquios','back',['hamL','hamR'],'Máquina',3,'10 a 12','30 kg'),
+    ex('Prensa de piernas','Cuádriceps y glúteos','back',['glutes','hamL','hamR'],'Máquina',3,'10 a 12','160 kg'),
+    ex('Elevación frontal','Hombros','front',['shoulderL','shoulderR'],'Mancuernas',3,'10 a 12','10 kg'),
+    ex('Elevación posterior','Hombros','back',['shoulderL','shoulderR'],'Máquina',3,'10 a 12','20 kg'),
+  ]},
 };
 
-/* ============== RUTINA — 5 días (estilo del split que subiste) ============== */
-const routineDays = [
-  { id:1, label:'Día 1', title:'Pecho y tríceps', eyebrow:'Empuje', exercises:[
-    {name:'Press de banca', muscleLabel:'Pecho', view:'front', highlight:['chest'], equip:'Barra', sets:3, reps:'10 a 12', weight:'60 kg', prevBest:'57.5 kg × 12'},
-    {name:'Press de banca inclinado', muscleLabel:'Pecho', view:'front', highlight:['chest','shoulderL','shoulderR'], equip:'Mancuernas', sets:3, reps:'10 a 12', weight:'22 kg', prevBest:'20 kg × 12'},
-    {name:'Fly (aperturas)', muscleLabel:'Pecho', view:'front', highlight:['chest'], equip:'Máquina', sets:3, reps:'10 a 12', weight:'35 kg', prevBest:'32 kg × 12'},
-    {name:'Tríceps cuerda', muscleLabel:'Tríceps', view:'back', highlight:['tricepL','tricepR'], equip:'Polea', sets:3, reps:'10 a 12', weight:'25 kg', prevBest:'22 kg × 12'},
-    {name:'Tríceps francés', muscleLabel:'Tríceps', view:'back', highlight:['tricepL','tricepR'], equip:'Mancuerna', sets:3, reps:'10 a 12', weight:'14 kg', prevBest:'12 kg × 12'},
-    {name:'Tríceps frente', muscleLabel:'Tríceps', view:'back', highlight:['tricepL','tricepR'], equip:'Polea', sets:3, reps:'10 a 12', weight:'28 kg', prevBest:'25 kg × 12'},
-  ]},
-  { id:2, label:'Día 2', title:'Espalda y bíceps', eyebrow:'Tracción', exercises:[
-    {name:'Remada curvada', muscleLabel:'Espalda', view:'back', highlight:['back'], equip:'Mancuerna', sets:3, reps:'10 a 12', weight:'24 kg', prevBest:'22 kg × 12'},
-    {name:'Remada abierta', muscleLabel:'Espalda', view:'back', highlight:['back'], equip:'Polea', sets:3, reps:'10 a 12', weight:'45 kg', prevBest:'42.5 kg × 12'},
-    {name:'Tirada abierta', muscleLabel:'Espalda', view:'back', highlight:['back'], equip:'Polea', sets:3, reps:'10 a 12', weight:'50 kg', prevBest:'47.5 kg × 12'},
-    {name:'Rosca scott', muscleLabel:'Bíceps', view:'front', highlight:['bicepL','bicepR'], equip:'Barra Z', sets:3, reps:'10 a 12', weight:'20 kg', prevBest:'18 kg × 12'},
-    {name:'Rosca martillo', muscleLabel:'Bíceps', view:'front', highlight:['bicepL','bicepR'], equip:'Mancuernas', sets:3, reps:'10 a 12', weight:'14 kg', prevBest:'12 kg × 12'},
-    {name:'Rosca directa', muscleLabel:'Bíceps', view:'front', highlight:['bicepL','bicepR'], equip:'Barra', sets:3, reps:'10 a 12', weight:'22 kg', prevBest:'20 kg × 12'},
-  ]},
-  { id:3, label:'Día 3', title:'Pierna completa', eyebrow:'Tren inferior', exercises:[
-    {name:'Hack en cuclillas', muscleLabel:'Cuádriceps', view:'front', highlight:['quadL','quadR'], equip:'Máquina', sets:3, reps:'10 a 12', weight:'80 kg', prevBest:'75 kg × 12'},
-    {name:'Silla extensora', muscleLabel:'Cuádriceps', view:'front', highlight:['quadL','quadR'], equip:'Máquina', sets:3, reps:'10 a 12', weight:'40 kg', prevBest:'37.5 kg × 12'},
-    {name:'Aductora', muscleLabel:'Aductores', view:'front', highlight:['adductorL','adductorR'], equip:'Máquina', sets:3, reps:'10 a 12', weight:'35 kg', prevBest:'32.5 kg × 12'},
-    {name:'Mesa flexora', muscleLabel:'Isquios', view:'back', highlight:['hamL','hamR'], equip:'Máquina', sets:3, reps:'10 a 12', weight:'30 kg', prevBest:'27.5 kg × 12'},
-    {name:'Silla flexora', muscleLabel:'Isquios', view:'back', highlight:['hamL','hamR'], equip:'Máquina', sets:3, reps:'10 a 12', weight:'32 kg', prevBest:'30 kg × 12'},
-    {name:'Prensa de piernas', muscleLabel:'Cuádriceps y glúteos', view:'back', highlight:['glutes','hamL','hamR'], equip:'Máquina', sets:3, reps:'10 a 12', weight:'160 kg', prevBest:'150 kg × 12'},
-  ]},
-  { id:4, label:'Día 4', title:'Hombro aislado', eyebrow:'Hombros', exercises:[
-    {name:'Crucifijo inverso', muscleLabel:'Hombro posterior', view:'back', highlight:['shoulderL','shoulderR'], equip:'Máquina', sets:3, reps:'10 a 12', weight:'20 kg', prevBest:'18 kg × 12'},
-    {name:'Elevación frontal', muscleLabel:'Hombro anterior', view:'front', highlight:['shoulderL','shoulderR'], equip:'Mancuernas', sets:3, reps:'10 a 12', weight:'10 kg', prevBest:'9 kg × 12'},
-    {name:'Elevación lateral', muscleLabel:'Hombro medio', view:'front', highlight:['shoulderL','shoulderR'], equip:'Mancuernas', sets:3, reps:'10 a 12', weight:'10 kg', prevBest:'9 kg × 12'},
-    {name:'Desarrollo', muscleLabel:'Hombros', view:'front', highlight:['shoulderL','shoulderR'], equip:'Mancuernas', sets:3, reps:'10 a 12', weight:'16 kg', prevBest:'14 kg × 12'},
-  ]},
-  { id:5, label:'Día 5', title:'Bíceps y tríceps', eyebrow:'Brazos', exercises:[
-    {name:'Tríceps cuerda', muscleLabel:'Tríceps', view:'back', highlight:['tricepL','tricepR'], equip:'Polea', sets:3, reps:'10 a 12', weight:'25 kg', prevBest:'22 kg × 12'},
-    {name:'Tríceps francés', muscleLabel:'Tríceps', view:'back', highlight:['tricepL','tricepR'], equip:'Mancuerna', sets:3, reps:'10 a 12', weight:'14 kg', prevBest:'12 kg × 12'},
-    {name:'Tríceps frente', muscleLabel:'Tríceps', view:'back', highlight:['tricepL','tricepR'], equip:'Polea', sets:3, reps:'10 a 12', weight:'28 kg', prevBest:'25 kg × 12'},
-    {name:'Rosca directa', muscleLabel:'Bíceps', view:'front', highlight:['bicepL','bicepR'], equip:'Barra', sets:3, reps:'10 a 12', weight:'22 kg', prevBest:'20 kg × 12'},
-    {name:'Rosca martillo', muscleLabel:'Bíceps', view:'front', highlight:['bicepL','bicepR'], equip:'Mancuernas', sets:3, reps:'10 a 12', weight:'14 kg', prevBest:'12 kg × 12'},
-    {name:'Rosca scott', muscleLabel:'Bíceps', view:'front', highlight:['bicepL','bicepR'], equip:'Barra Z', sets:3, reps:'10 a 12', weight:'20 kg', prevBest:'18 kg × 12'},
-  ]},
+const WEEKDAYS = [
+  {key:'lunes',     label:'Lunes',     type:'A'},
+  {key:'martes',    label:'Martes',    type:'B'},
+  {key:'miercoles', label:'Miércoles', type:'C'},
+  {key:'jueves',    label:'Jueves',    type:'A'},
+  {key:'viernes',   label:'Viernes',   type:'B'},
+  {key:'sabado',    label:'Sábado',    type:'C'},
+  {key:'domingo',   label:'Domingo',   type:null},
 ];
-routineDays.forEach(d => d.exercises.forEach((e,i)=> e.id = `d${d.id}e${i}`));
-
-const CYCLE = [1,2,3,4,5,0]; // 5 días de rutina + 1 descanso, se repite
-function dayTypeFor(n){ return CYCLE[(n-1) % 6]; } // n = día del mes (agosto 2026)
-
-const TODAY_DATE = 26; // miércoles 26 de agosto de 2026
-const todayDayId = dayTypeFor(TODAY_DATE); // => 2 (Espalda y bíceps)
-
-const records = [
-  {name:'Sentadilla', weight:'140 kg', date:'12 ago', isPR:true, view:'front', highlight:['quadL','quadR']},
-  {name:'Peso muerto', weight:'175 kg', date:'28 jul', isPR:true, view:'back', highlight:['hamL','hamR','glutes']},
-  {name:'Press de banca', weight:'95 kg', date:'15 ago', isPR:true, view:'front', highlight:['chest']},
-  {name:'Press militar', weight:'52.5 kg', date:'3 ago', isPR:false, view:'front', highlight:['shoulderL','shoulderR']},
-];
-const progressData = [110,114,116,120,124,128,133,140];
-const progressLabels = ['S1','S2','S3','S4','S5','S6','S7','S8'];
-
-/* ============== STATE ============== */
-let customCounter = 0;
-const state = {
-  screen: 'plan',
-  activeDayId: todayDayId,
-  activeExerciseId: null,
-  customExercises: {}, // { [dayId]: [exercise,...] }
-  log: {},              // { [exerciseId]: {rows:[{reps,weight}], done:[idx,...]} }
-  resting: false,
-  secondsLeft: 90,
-};
-const REST_TOTAL = 90;
-let timerInterval = null;
-
-function getDay(dayId){ return routineDays.find(d=>d.id===dayId); }
-function getDayExercises(dayId){
-  return [...getDay(dayId).exercises, ...(state.customExercises[dayId]||[])];
-}
-function getLog(ex){
-  if(!state.log[ex.id]){
-    state.log[ex.id] = {
-      rows: Array.from({length:ex.sets}).map(()=>({reps:ex.reps, weight:ex.weight})),
-      done: []
-    };
-  }
-  return state.log[ex.id];
-}
-function activeExercise(){
-  const list = getDayExercises(state.activeDayId);
-  return list.find(e=>e.id===state.activeExerciseId) || list[0];
+function todayKeyFn(){
+  const map = ['domingo','lunes','martes','miercoles','jueves','viernes','sabado'];
+  return map[new Date().getDay()];
 }
 
-/* ============== RENDER: SIDEBAR ============== */
-function renderSidebar(){
-  const navItems = [
-    {id:'plan', label:'Plan', icon:ICONS.layoutGrid},
-    {id:'calendario', label:'Calendario', icon:ICONS.calendar},
-    {id:'progreso', label:'Progreso', icon:ICONS.trendingUp},
-  ];
-  const navHtml = navItems.map(item=>{
-    const active = state.screen === item.id || (item.id==='plan' && state.screen==='exercise');
-    return `<button type="button" class="nav-btn ${active?'active':''}" data-nav="${item.id}">
-      ${item.icon(active ? '#FF5A33' : '#93959D', 16)} ${item.label}
-    </button>`;
-  }).join('');
-
-  document.getElementById('sidebar').innerHTML = `
-    <div>
-      <div class="brand"><div class="brand-mark"></div><span class="display brand-name">FORJA</span></div>
-      <div class="nav">${navHtml}</div>
-    </div>
-    <div class="profile">
-      <div class="avatar"></div>
-      <div><div class="profile-name">Rei L</div><div class="profile-sub">Fase de fuerza</div></div>
-    </div>
-  `;
-  document.querySelectorAll('[data-nav]').forEach(btn=>{
-    btn.addEventListener('click', ()=>{ state.screen = btn.dataset.nav; render(); });
-  });
+/* ============== COMPONENTE: ficha de ejercicio (sets + timer) ============== */
+function exerciseCard(exr){
+  return {
+    open:false,
+    rows: Array.from({length:exr.sets}, () => ({reps:exr.reps, weight:exr.weight, done:false})),
+    restTotal:90, secondsLeft:90, resting:false, timerInterval:null,
+    toggleOpen(){ this.open = !this.open; },
+    doneCount(){ return this.rows.filter(r=>r.done).length; },
+    toggleSet(i){
+      this.rows[i].done = !this.rows[i].done;
+      if(this.rows[i].done){ this.secondsLeft = this.restTotal; this.start(); }
+    },
+    get circumference(){ return 2*Math.PI*27; },
+    dashOffset(){ return this.resting ? (1 - this.secondsLeft/this.restTotal) * this.circumference : 0; },
+    start(){
+      clearInterval(this.timerInterval);
+      this.resting = true;
+      this.timerInterval = setInterval(()=>{
+        this.secondsLeft--;
+        if(this.secondsLeft <= 0){
+          clearInterval(this.timerInterval);
+          this.resting = false; this.secondsLeft = this.restTotal;
+        }
+      }, 1000);
+    },
+    pause(){ clearInterval(this.timerInterval); this.resting=false; },
+    reset(){ this.pause(); this.secondsLeft = this.restTotal; },
+  };
 }
 
-/* ============== RENDER: PLAN ============== */
-function renderPlan(){
-  const day = getDay(state.activeDayId);
-  const exercises = getDayExercises(state.activeDayId);
+/* ============== COMPONENTE RAÍZ ============== */
+function app(){
+  return {
+    weekdays: WEEKDAYS,
+    dayTypes: DAY_TYPES,
+    todayKey: todayKeyFn(),
+    activeWeekdayKey: todayKeyFn(),
+    customExercises: { A:[], B:[], C:[] },
+    showAddForm:false,
+    libraryPick:'',
+    newEx:{ name:'', muscleLabel:'', sets:3, reps:'10 a 12', weight:'' },
 
-  // Semana actual: L 24 ago -> D 30 ago 2026
-  const weekLetters = ['L','M','X','J','V','S','D'];
-  const weekDates = [24,25,26,27,28,29,30];
-  const weekHtml = weekDates.map((n,i)=>{
-    const type = dayTypeFor(n);
-    const isToday = n === TODAY_DATE;
-    const isRest = type === 0;
-    const isPast = n < TODAY_DATE;
-    let inner = `<div class="dot"></div>`;
-    if(isRest) inner = `<div class="dot dim"></div>`;
-    else if(isToday) inner = ICONS.flame('#fff',14);
-    else if(isPast) inner = ICONS.check('#7BD79C',14);
-    return `<div class="day-chip ${isToday?'today':''}">
-      <div class="day-label">${weekLetters[i]}</div>
-      <div class="day-dot-row">${inner}</div>
-    </div>`;
-  }).join('');
+    init(){
+      const saved = localStorage.getItem('forja_custom_exercises_v1');
+      if(saved){
+        try{
+          const parsed = JSON.parse(saved);
+          // reconstruir el pictograma (no se guarda en localStorage)
+          Object.keys(parsed).forEach(type=>{
+            parsed[type].forEach(e=>{ e.pictogramSvg = e.highlight && e.highlight.length ? bodyFigure(e.view, e.highlight, 44) : genericIconSvg(); });
+          });
+          this.customExercises = parsed;
+        }catch(e){ /* localStorage corrupto, se ignora */ }
+      }
+    },
+    persist(){
+      // no guardamos el SVG (se reconstruye al cargar)
+      const toSave = {};
+      Object.keys(this.customExercises).forEach(type=>{
+        toSave[type] = this.customExercises[type].map(({pictogramSvg, ...rest})=>rest);
+      });
+      localStorage.setItem('forja_custom_exercises_v1', JSON.stringify(toSave));
+    },
 
-  const tabsHtml = routineDays.map(d=>`
-    <button type="button" class="day-tab ${d.id===state.activeDayId?'active':''}" data-day-tab="${d.id}">
-      ${d.label}${d.id===todayDayId?'<span class="today-dot"></span>':''}
-    </button>
-  `).join('');
-
-  const available = routineDays.flatMap(d=>d.exercises).filter(lib =>
-    !exercises.some(ex => ex.name === lib.name)
-  );
-  // Deduplicar por nombre para el selector
-  const seen = new Set();
-  const availableUnique = available.filter(lib=>{
-    if(seen.has(lib.name)) return false;
-    seen.add(lib.name); return true;
-  });
-
-  const exListHtml = exercises.map(ex=>{
-    const log = getLog(ex);
-    const doneCount = log.done.length;
-    return `
-    <button type="button" class="exercise-row" data-open-exercise="${ex.id}">
-      <div class="pictogram-box">${bodyFigure(ex.view, ex.highlight, 40)}</div>
-      <div style="flex:1;min-width:0;">
-        <div class="ex-name">${ex.name}${ex.custom?'<span class="custom-tag">EXTRA</span>':''}</div>
-        <div class="ex-sub">${ex.muscleLabel} · ${ex.equip} · Anterior: ${ex.prevBest}</div>
-      </div>
-      <div class="ex-right mono">
-        <div class="ex-right-main">${doneCount}/${ex.sets}</div>
-        <div class="ex-right-sub">${ex.reps} · ${ex.weight}</div>
-      </div>
-    </button>
-  `;
-  }).join('');
-
-  const optionsHtml = availableUnique.map(lib=>`<option value="${lib.name}">${lib.name} · ${lib.muscleLabel}</option>`).join('');
-
-  document.getElementById('main').innerHTML = `
-    <div class="screen">
-      <div class="eyebrow">Semana 6 · ${day.eyebrow}</div>
-      <h1 class="display title">${day.label} — ${day.title}</h1>
-      <p class="subtitle">Sesión enfocada en ${day.title.toLowerCase()}. Volumen ajustado según tu recuperación reportada esta semana.</p>
-
-      <div class="week-strip">${weekHtml}</div>
-
-      <div class="stat-grid">
-        <div class="stat-chip">${ICONS.flame('#FF5A33',18)}<div><div class="stat-value mono">18 días</div><div class="stat-label">Racha</div></div></div>
-        <div class="stat-chip">${ICONS.dumbbell('#FF5A33',18)}<div><div class="stat-value mono">9,240 kg</div><div class="stat-label">Volumen semana</div></div></div>
-        <div class="stat-chip">${ICONS.trendingUp('#FF5A33',18)}<div><div class="stat-value mono">140 kg</div><div class="stat-label">RM est. sentadilla</div></div></div>
-      </div>
-
-      <div class="section-label">Rutina de 5 días</div>
-      <div class="day-tabs">${tabsHtml}</div>
-
-      <div class="section-label">${exercises.length} ejercicios · ~${exercises.length*13} min</div>
-
-      <div class="picker-row">
-        <select class="picker-select" id="exercisePicker">
-          <option value="">+ Agregar ejercicio a la sesión…</option>
-          ${optionsHtml}
-        </select>
-        <button type="button" class="add-btn" id="addExerciseBtn">${ICONS.plus('currentColor',14)} Agregar</button>
-      </div>
-
-      <div class="exercise-list">${exListHtml}</div>
-    </div>
-  `;
-
-  document.querySelectorAll('[data-day-tab]').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      state.activeDayId = Number(btn.dataset.dayTab);
-      render();
-    });
-  });
-
-  document.querySelectorAll('[data-open-exercise]').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      state.activeExerciseId = btn.dataset.openExercise;
-      state.screen = 'exercise';
-      state.resting = false; state.secondsLeft = REST_TOTAL;
-      clearInterval(timerInterval);
-      render();
-    });
-  });
-
-  const picker = document.getElementById('exercisePicker');
-  const addBtn = document.getElementById('addExerciseBtn');
-  picker.addEventListener('change', ()=>{
-    if(picker.value){ addBtn.classList.add('enabled'); picker.classList.add('filled'); }
-    else { addBtn.classList.remove('enabled'); picker.classList.remove('filled'); }
-  });
-  addBtn.addEventListener('click', ()=>{
-    if(!picker.value) return;
-    const lib = availableUnique.find(l=>l.name===picker.value);
-    if(lib){
-      const copy = {...lib, id:`custom${customCounter++}`, custom:true};
-      if(!state.customExercises[state.activeDayId]) state.customExercises[state.activeDayId] = [];
-      state.customExercises[state.activeDayId].push(copy);
-      render();
-    }
-  });
+    get activeWeekday(){ return this.weekdays.find(w=>w.key===this.activeWeekdayKey); },
+    get activeType(){ return this.activeWeekday ? this.activeWeekday.type : null; },
+    get activeExercises(){
+      if(!this.activeType) return [];
+      const base = this.dayTypes[this.activeType].exercises;
+      const custom = this.customExercises[this.activeType] || [];
+      return [...base, ...custom];
+    },
+    get libraryOptions(){
+      const all = Object.values(this.dayTypes).flatMap(d=>d.exercises);
+      const seen = new Set(); const out = [];
+      all.forEach(e=>{ if(!seen.has(e.name)){ seen.add(e.name); out.push(e); } });
+      const currentNames = new Set(this.activeExercises.map(e=>e.name));
+      return out.filter(e=>!currentNames.has(e.name));
+    },
+    addFromLibrary(){
+      if(!this.libraryPick) return;
+      const src = this.libraryOptions.find(e=>e.name===this.libraryPick);
+      if(!src) return;
+      const copy = {...src, id:'custom_'+Date.now(), custom:true};
+      if(!this.customExercises[this.activeType]) this.customExercises[this.activeType]=[];
+      this.customExercises[this.activeType].push(copy);
+      this.persist();
+      this.libraryPick='';
+    },
+    addCustom(){
+      if(!this.newEx.name.trim()) return;
+      const copy = {
+        id:'custom_'+Date.now(),
+        name:this.newEx.name.trim(),
+        muscleLabel:this.newEx.muscleLabel.trim() || 'Personalizado',
+        equip:'Personalizado',
+        sets:Number(this.newEx.sets)||3,
+        reps:this.newEx.reps || '10 a 12',
+        weight:this.newEx.weight || '-',
+        view:'front', highlight:[],
+        pictogramSvg: genericIconSvg(),
+        custom:true,
+      };
+      if(!this.customExercises[this.activeType]) this.customExercises[this.activeType]=[];
+      this.customExercises[this.activeType].push(copy);
+      this.persist();
+      this.newEx = {name:'',muscleLabel:'',sets:3,reps:'10 a 12',weight:''};
+      this.showAddForm=false;
+    },
+    removeCustom(id){
+      this.customExercises[this.activeType] = (this.customExercises[this.activeType]||[]).filter(e=>e.id!==id);
+      this.persist();
+    },
+  };
 }
-
-/* ============== RENDER: EXERCISE ============== */
-function renderExercise(){
-  const ex = activeExercise();
-  const log = getLog(ex);
-
-  const rowsHtml = log.rows.map((row,i)=>{
-    const done = log.done.includes(i);
-    return `
-    <div class="set-row">
-      <div class="set-num mono">${String(i+1).padStart(2,'0')}</div>
-      <div class="set-prev">${ex.prevBest}</div>
-      <input class="set-input" data-set-field="reps" data-set-index="${i}" value="${row.reps}" />
-      <input class="set-input" data-set-field="weight" data-set-index="${i}" data-apply-all="${i}" value="${row.weight}" title="Doble clic para aplicar a todas las series"/>
-      <div class="set-done-cell">
-        <button type="button" class="set-check ${done?'done':''}" data-toggle-set="${i}">${done?ICONS.check('#14161A',16):''}</button>
-      </div>
-    </div>`;
-  }).join('');
-
-  document.getElementById('main').innerHTML = `
-    <div class="screen">
-      <button type="button" class="back-btn" id="backBtn">${ICONS.chevronLeft('currentColor',16)} Volver al plan</button>
-
-      <div class="ex-header">
-        <div class="ex-illustration">${bodyFigure(ex.view, ex.highlight, 100)}</div>
-        <div class="ex-info">
-          <div class="eyebrow">${ex.muscleLabel} · ${ex.equip}</div>
-          <h1 class="display title small">${ex.name}</h1>
-          <p class="ex-desc">Controla la fase excéntrica en 3 segundos. Si completas todas las repeticiones con buena forma en la última serie, subimos el peso la próxima semana.</p>
-          <div class="ex-stats">
-            <div class="mono"><div class="ex-stat-num">${ex.sets}</div><div class="ex-stat-label">Series</div></div>
-            <div class="divider-v"></div>
-            <div class="mono"><div class="ex-stat-num">${ex.reps}</div><div class="ex-stat-label">Reps objetivo</div></div>
-            <div class="divider-v"></div>
-            <div class="mono"><div class="ex-stat-num">${ex.weight}</div><div class="ex-stat-label">Carga</div></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="set-table">
-        <div class="set-head">Serie<span>Anterior</span><span>Reps</span><span>Peso</span><span style="text-align:right">Hecha</span></div>
-        ${rowsHtml}
-        <div class="set-hint">${ICONS.pencil('currentColor',11)} Tocá reps o peso para editar · doble clic en peso para aplicarlo a todas las series</div>
-      </div>
-
-      <div class="timer-card">
-        <div class="timer-ring-wrap">
-          <svg width="84" height="84" style="transform:rotate(-90deg)">
-            <circle cx="42" cy="42" r="36" stroke="#25262C" stroke-width="6" fill="none"/>
-            <circle id="timerRing" cx="42" cy="42" r="36" stroke="#FF5A33" stroke-width="6" fill="none"
-              stroke-dasharray="${2*Math.PI*36}"
-              stroke-dashoffset="${state.resting ? (1-state.secondsLeft/REST_TOTAL)*2*Math.PI*36 : 0}"
-              stroke-linecap="round" style="transition:stroke-dashoffset 1s linear"/>
-          </svg>
-          <div class="timer-text mono" id="timerText">${state.secondsLeft}s</div>
-        </div>
-        <div class="timer-info">
-          <div class="timer-title">Descanso entre series</div>
-          <div class="timer-sub">90 segundos recomendados para esta carga</div>
-        </div>
-        <button type="button" class="timer-btn ${state.resting?'resting':''}" id="timerBtn">
-          ${state.resting ? ICONS.pause('currentColor',14) : ICONS.play('currentColor',14)} ${state.resting ? 'Pausar' : 'Iniciar'}
-        </button>
-        <button type="button" class="reset-btn" id="timerReset">${ICONS.rotateCcw('currentColor',16)}</button>
-      </div>
-    </div>
-  `;
-
-  document.getElementById('backBtn').addEventListener('click', ()=>{
-    clearInterval(timerInterval);
-    state.screen = 'plan';
-    render();
-  });
-
-  document.querySelectorAll('[data-set-field]').forEach(input=>{
-    input.addEventListener('input', ()=>{
-      const i = Number(input.dataset.setIndex);
-      const field = input.dataset.setField;
-      log.rows[i][field] = input.value;
-    });
-    input.addEventListener('dblclick', ()=>{
-      if(input.dataset.applyAll === undefined) return;
-      const i = Number(input.dataset.applyAll);
-      const row = log.rows[i];
-      log.rows = log.rows.map(()=>({...row}));
-      render();
-    });
-  });
-
-  document.querySelectorAll('[data-toggle-set]').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      const i = Number(btn.dataset.toggleSet);
-      const wasDone = log.done.includes(i);
-      log.done = wasDone ? log.done.filter(x=>x!==i) : [...log.done, i];
-      if(!wasDone){ state.secondsLeft = REST_TOTAL; startTimer(); }
-      render();
-    });
-  });
-
-  document.getElementById('timerBtn').addEventListener('click', ()=>{
-    if(state.resting){ pauseTimer(); } else { if(state.secondsLeft===0) state.secondsLeft = REST_TOTAL; startTimer(); }
-    render();
-  });
-  document.getElementById('timerReset').addEventListener('click', ()=>{
-    pauseTimer(); state.secondsLeft = REST_TOTAL; render();
-  });
-}
-
-function startTimer(){
-  clearInterval(timerInterval);
-  state.resting = true;
-  timerInterval = setInterval(()=>{
-    state.secondsLeft -= 1;
-    if(state.secondsLeft <= 0){
-      clearInterval(timerInterval);
-      state.resting = false; state.secondsLeft = REST_TOTAL;
-      render();
-      return;
-    }
-    updateTimerDOM();
-  }, 1000);
-}
-function pauseTimer(){ clearInterval(timerInterval); state.resting = false; }
-function updateTimerDOM(){
-  const ring = document.getElementById('timerRing');
-  const text = document.getElementById('timerText');
-  if(!ring || !text) return;
-  const circumference = 2*Math.PI*36;
-  ring.setAttribute('stroke-dashoffset', (1 - state.secondsLeft/REST_TOTAL) * circumference);
-  text.textContent = state.secondsLeft + 's';
-}
-
-/* ============== RENDER: CALENDARIO ============== */
-function renderCalendario(){
-  const dowLabels = ['L','M','X','J','V','S','D'];
-  const dowHtml = dowLabels.map(d=>`<div class="cal-dow mono">${d}</div>`).join('');
-
-  // Agosto 2026 empieza en sábado -> 5 celdas vacías antes del día 1
-  const leadingBlanks = 5;
-  const blanksHtml = Array.from({length:leadingBlanks}).map(()=>`<div class="cal-cell empty"></div>`).join('');
-
-  const cellsHtml = Array.from({length:31}).map((_,idx)=>{
-    const n = idx+1;
-    const type = dayTypeFor(n);
-    const isToday = n === TODAY_DATE;
-    const isRest = type === 0;
-    const isPast = n < TODAY_DATE;
-    const focus = isRest ? 'Descanso' : getDay(type).title;
-    let dot = `<div class="dot"></div>`;
-    if(isRest) dot = `<div class="dot dim"></div>`;
-    else if(isToday) dot = ICONS.flame('#fff',10);
-    else if(isPast) dot = ICONS.check('#7BD79C',10);
-    return `<div class="cal-cell ${isToday?'today':''}">
-      <div class="cal-num mono">${n}</div>
-      <div class="cal-focus">${focus}</div>
-      <div class="cal-dot-row">${dot}</div>
-    </div>`;
-  }).join('');
-
-  const legendHtml = routineDays.map(d=>`
-    <div class="legend-item"><div class="legend-swatch" style="background:var(--panel2);border:1px solid var(--border);"></div>${d.label}: ${d.title}</div>
-  `).join('') + `<div class="legend-item"><div class="legend-swatch" style="background:var(--panel2);border:1px solid var(--border);"></div>Descanso</div>`;
-
-  document.getElementById('main').innerHTML = `
-    <div class="screen">
-      <div class="eyebrow">Agosto 2026</div>
-      <h1 class="display title">Calendario de entrenamiento</h1>
-      <p class="subtitle">Vista mensual de tu rutina de 5 días + descanso. Tocá "Plan" para ver el detalle del día de hoy.</p>
-
-      <div class="cal-grid cal-dow-row">${dowHtml}</div>
-      <div class="cal-grid">${blanksHtml}${cellsHtml}</div>
-
-      <div class="legend-row">${legendHtml}</div>
-    </div>
-  `;
-}
-
-/* ============== RENDER: PROGRESO ============== */
-function miniLineChart(data, labels){
-  const w=560, h=180, pad=30;
-  const min = Math.min(...data)-5, max = Math.max(...data)+5;
-  const stepX = (w-pad*2)/(data.length-1);
-  const pts = data.map((v,i)=>{
-    const x = pad + i*stepX;
-    const y = h-pad-((v-min)/(max-min))*(h-pad*2);
-    return [x,y];
-  });
-  const pathD = pts.map((p,i)=> i===0 ? `M${p[0]},${p[1]}` : `L${p[0]},${p[1]}`).join(' ');
-  const gridLines = [0.25,0.5,0.75].map(f=>`<line x1="${pad}" x2="${w-pad}" y1="${pad+f*(h-pad*2)}" y2="${pad+f*(h-pad*2)}" stroke="#34353B" stroke-width="1"/>`).join('');
-  const dots = pts.map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="3.5" fill="#FFB020"/>`).join('');
-  const labelsHtml = labels.map((l,i)=>`<text x="${pts[i][0]}" y="${h-8}" font-size="10" fill="#93959D" text-anchor="middle" font-family="'IBM Plex Mono',monospace">${l}</text>`).join('');
-  return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}">
-    ${gridLines}
-    <path d="${pathD}" fill="none" stroke="#FF5A33" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-    ${dots}${labelsHtml}
-  </svg>`;
-}
-
-function renderProgreso(){
-  const recordsHtml = records.map(r=>`
-    <div class="record-row">
-      <div class="pictogram-box" style="width:44px;height:44px;">${bodyFigure(r.view, r.highlight, 30)}</div>
-      <div style="flex:1;">
-        <div class="record-name">${r.name}</div>
-        <div class="record-date">${r.date}</div>
-      </div>
-      ${r.isPR ? `<div class="pr-badge">${ICONS.trophy('#FF5A33',11)}<span class="pr-text">PR</span></div>` : ''}
-      <div class="record-weight">${r.weight}</div>
-    </div>
-  `).join('');
-
-  document.getElementById('main').innerHTML = `
-    <div class="screen">
-      <div class="eyebrow">Historial</div>
-      <h1 class="display title">Progreso &amp; récords</h1>
-      <p class="subtitle">8 semanas de entrenamiento registradas.</p>
-
-      <div class="stat-grid">
-        <div class="stat-chip">${ICONS.trophy('#FF5A33',18)}<div><div class="stat-value mono">3</div><div class="stat-label">PRs este mes</div></div></div>
-        <div class="stat-chip">${ICONS.dumbbell('#FF5A33',18)}<div><div class="stat-value mono">24</div><div class="stat-label">Sesiones</div></div></div>
-        <div class="stat-chip">${ICONS.trendingUp('#FF5A33',18)}<div><div class="stat-value mono">+12%</div><div class="stat-label">RM +30 días</div></div></div>
-      </div>
-
-      <div class="chart-card">
-        <div class="chart-head"><div class="chart-title">1RM estimado — Sentadilla</div><div class="chart-value">140 kg</div></div>
-        ${miniLineChart(progressData, progressLabels)}
-      </div>
-
-      <div class="section-label">Récords personales</div>
-      <div class="exercise-list">${recordsHtml}</div>
-    </div>
-  `;
-}
-
-/* ============== MAIN RENDER ============== */
-function render(){
-  renderSidebar();
-  if(state.screen === 'plan') renderPlan();
-  else if(state.screen === 'exercise') renderExercise();
-  else if(state.screen === 'calendario') renderCalendario();
-  else if(state.screen === 'progreso') renderProgreso();
-}
-
-render();
 </script>
 </body>
 </html>
