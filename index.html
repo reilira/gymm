@@ -2,90 +2,77 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sistema FORJA - Dashboard & Hábitos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>FORJA Mobile Mockup</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
     :root {
-      --bg-color: #121212;
-      --card-bg: #1e1e1e;
-      --border-color: #2a2a2a;
+      --bg: #0d0d0d;
+      --card-bg: #18181b;
+      --card-border: #27272a;
       --primary: #ff6b00;
-      --primary-hover: #e05e00;
-      --text-main: #f1f1f1;
-      --text-muted: #a0a0a0;
-      --success: #2ea043;
+      --primary-light: rgba(255, 107, 0, 0.15);
+      --text: #f4f4f5;
+      --text-muted: #a1a1aa;
+      --success: #22c55e;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-tap-highlight-color: transparent;
     }
 
     body {
-      background-color: var(--bg-color);
-      color: var(--text-main);
+      background-color: var(--bg);
+      color: var(--text);
       display: flex;
+      justify-content: center;
       min-height: 100vh;
     }
 
-    /* Sidebar Navigation */
-    aside {
-      width: 260px;
-      background-color: var(--card-bg);
-      border-right: 1px solid var(--border-color);
+    /* Mobile Container Frame */
+    .app-container {
+      width: 100%;
+      max-width: 430px; /* Tamaño iPhone Pro Max */
+      background-color: var(--bg);
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      padding: 20px 10px;
+      position: relative;
+      padding-bottom: 75px; /* Espacio para menú inferior */
+      box-shadow: 0 0 30px rgba(0,0,0,0.8);
+    }
+
+    /* Header Superior */
+    header {
+      padding: 18px 20px 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: var(--bg);
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 10px;
-      font-size: 1.5rem;
-      font-weight: bold;
+      gap: 8px;
+      font-weight: 900;
+      font-size: 1.4rem;
       color: var(--primary);
-      padding: 0 10px 20px 10px;
-      border-bottom: 1px solid var(--border-color);
-      margin-bottom: 20px;
+      letter-spacing: 1px;
     }
 
-    nav {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-
-    .nav-btn {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 15px;
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      border-radius: 8px;
-      cursor: pointer;
-      text-align: left;
-      transition: all 0.2s;
-    }
-
-    .nav-btn:hover, .nav-btn.active {
-      background-color: rgba(255, 107, 0, 0.15);
-      color: var(--primary);
-      font-weight: 600;
-    }
-
-    /* Main Content */
+    /* Main Content Area */
     main {
+      padding: 10px 16px;
       flex: 1;
-      padding: 30px;
-      overflow-y: auto;
     }
 
     .section {
@@ -96,312 +83,480 @@
       display: block;
     }
 
-    h2 {
-      font-size: 1.8rem;
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: var(--primary);
-    }
-
-    /* Cards Layout */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 20px;
-      margin-bottom: 25px;
-    }
-
-    .card {
-      background-color: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 20px;
-    }
-
-    .card-title {
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin-bottom: 15px;
-      color: var(--text-main);
-    }
-
-    /* Buttons & Controls */
-    .tabs {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-
-    .tab-btn {
-      padding: 8px 16px;
-      background-color: var(--card-bg);
-      border: 1px solid var(--border-color);
-      color: var(--text-muted);
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    .tab-btn.active {
-      background-color: var(--primary);
-      color: white;
-      border-color: var(--primary);
-    }
-
-    .btn-action {
-      background-color: var(--primary);
-      color: white;
-      border: none;
-      padding: 10px 18px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
+    /* Headers de pantalla */
+    .screen-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 4px;
       display: flex;
       align-items: center;
       gap: 8px;
-      margin-top: 15px;
     }
 
-    .btn-action:hover {
-      background-color: var(--primary-hover);
+    .screen-subtitle {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
     }
 
-    /* Lists */
-    ul {
-      list-style: none;
+    /* Cards */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 14px;
     }
 
-    li {
-      padding: 10px 0;
-      border-bottom: 1px solid var(--border-color);
+    .card-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 12px;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    li:last-child {
+    /* Tabs Internos */
+    .segmented-control {
+      display: flex;
+      background-color: #27272a;
+      padding: 3px;
+      border-radius: 10px;
+      margin-bottom: 16px;
+    }
+
+    .segment-btn {
+      flex: 1;
+      padding: 8px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .segment-btn.active {
+      background-color: var(--primary);
+      color: white;
+    }
+
+    /* Grid Métricas Cortas */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .metric-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 12px 14px;
+    }
+
+    .metric-val {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-top: 4px;
+    }
+
+    .metric-lbl {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* Listas con Checkboxes e Iconos */
+    .list-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .list-item:last-child {
       border-bottom: none;
     }
 
-    /* Progress bar */
-    .progress-bar {
-      height: 10px;
-      background-color: var(--border-color);
-      border-radius: 5px;
+    .item-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem;
+    }
+
+    .checkbox {
+      width: 20px;
+      height: 20px;
+      border-radius: 6px;
+      border: 2px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .checkbox.checked {
+      background-color: var(--success);
+      border-color: var(--success);
+    }
+
+    /* Barra de Progreso */
+    .progress-bar-bg {
+      height: 8px;
+      background-color: #27272a;
+      border-radius: 4px;
       overflow: hidden;
-      margin: 10px 0;
+      margin: 8px 0;
     }
 
-    .progress-fill {
+    .progress-bar-fill {
       height: 100%;
-      background-color: var(--primary);
+      background: linear-gradient(90deg, #ff6b00, #ff8800);
+      border-radius: 4px;
     }
 
-    /* Timer Display */
-    .timer-display {
-      font-size: 4rem;
-      font-weight: bold;
-      text-align: center;
-      margin: 20px 0;
+    /* Temporizador Visual */
+    .timer-circle {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      border: 6px solid var(--card-border);
+      border-top-color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 15px auto;
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    /* Bottom Navigation Bar */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      max-width: 430px;
+      height: 65px;
+      background-color: #121214;
+      border-top: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.68rem;
+      cursor: pointer;
+      width: 14%;
+    }
+
+    .nav-item.active {
       color: var(--primary);
     }
 
-    .timer-controls {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      body { flex-direction: column; }
-      aside { width: 100%; }
+    /* Badges */
+    .badge {
+      font-size: 0.75rem;
+      padding: 2px 8px;
+      border-radius: 12px;
+      background: var(--primary-light);
+      color: var(--primary);
+      font-weight: 600;
     }
   </style>
 </head>
 <body>
 
-  <aside>
-    <div class="brand">
-      <i data-lucide="flame"></i> FORJA
-    </div>
-    <nav>
-      <button class="nav-btn active" onclick="switchTab('metas')"><i data-lucide="target"></i> Objetivos y Metas</button>
-      <button class="nav-btn" onclick="switchTab('memento')"><i data-lucide="hourglass"></i> Memento Mori</button>
-      <button class="nav-btn" onclick="switchTab('rueda')"><i data-lucide="pie-chart"></i> Rueda de la Vida</button>
-      <button class="nav-btn" onclick="switchTab('enfoque')"><i data-lucide="timer"></i> Temporizador Enfoque</button>
-      <button class="nav-btn" onclick="switchTab('suenos')"><i data-lucide="moon"></i> Sueños por Cumplir</button>
-      <button class="nav-btn" onclick="switchTab('entrenamiento')"><i data-lucide="dumbbell"></i> Entrenamiento FORJA</button>
-      <button class="nav-btn" onclick="switchTab('finanzas')"><i data-lucide="wallet"></i> Gastos y Finanzas</button>
-    </nav>
-  </aside>
+  <div class="app-container">
+    <header>
+      <div class="brand"><i data-lucide="flame"></i> FORJA</div>
+      <i data-lucide="bell" size="20" color="#a1a1aa"></i>
+    </header>
 
-  <main>
-    <section id="metas" class="section active">
-      <h2><i data-lucide="target"></i> Objetivos y Metas</h2>
-      <div class="tabs">
-        <button class="tab-btn active">Personal</button>
-        <button class="tab-btn">Profesional</button>
-      </div>
-      <div class="grid">
+    <main>
+      <section id="metas" class="section active">
+        <div class="screen-title"><i data-lucide="target" color="#ff6b00"></i> Objetivos y Metas</div>
+        <div class="screen-subtitle">Definí tus objetivos y alcanzá metas clave.</div>
+
+        <div class="segmented-control">
+          <button class="segment-btn">Personal</button>
+          <button class="segment-btn active">Profesional</button>
+        </div>
+
         <div class="card">
-          <div class="card-title">Resumen Anual</div>
-          <div class="progress-bar"><div class="progress-fill" style="width: 60%;"></div></div>
-          <p>60% Completado (12 de 20 Metas)</p>
+          <div class="card-title">Resumen Anual <span class="badge">60%</span></div>
+          <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 60%;"></div></div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); margin-top: 6px;">
+            <span>✔️ 12 Completadas</span>
+            <span>🏆 8 Restantes</span>
+          </div>
         </div>
+
         <div class="card">
-          <div class="card-title">Metas 1° Trimestre</div>
-          <ul>
-            <li><span>Leer 20 Libros</span> <i data-lucide="check-circle" color="#2ea043"></i></li>
-            <li><span>Meditar 30 min/día</span> <i data-lucide="clock" color="#ff6b00"></i></li>
-            <li><span>Organizar viaje a la montaña</span> <i data-lucide="clock" color="#ff6b00"></i></li>
-          </ul>
-          <button class="btn-action"><i data-lucide="plus"></i> Nueva Meta</button>
+          <div class="card-title">1° Trimestre</div>
+          <div class="list-item">
+            <div class="item-left"><i data-lucide="book-open" size="18" color="#ff6b00"></i> Leer 20 Libros</div>
+            <i data-lucide="chevron-right" size="16" color="#666"></i>
+          </div>
+          <div class="list-item">
+            <div class="item-left"><i data-lucide="smile" size="18" color="#ff6b00"></i> Meditar 30m al día</div>
+            <i data-lucide="chevron-right" size="16" color="#666"></i>
+          </div>
+          <div class="list-item">
+            <div class="item-left"><i data-lucide="mountain" size="18" color="#ff6b00"></i> Viaje a la montaña</div>
+            <i data-lucide="chevron-right" size="16" color="#666"></i>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section id="memento" class="section">
-      <h2><i data-lucide="hourglass"></i> Memento Mori</h2>
-      <div class="card" style="margin-bottom: 20px;">
-        <div class="card-title">Progreso Vital (1,780 de 4,160 semanas vividas)</div>
-        <div class="progress-bar"><div class="progress-fill" style="width: 43%;"></div></div>
-        <p style="text-align: right;">43% consumido</p>
-      </div>
-      <div class="card">
-        <blockquote style="font-style: italic; font-size: 1.2rem; color: #ccc;">
-          "No es que tengamos poco tiempo, es que perdemos mucho."
-        </blockquote>
-        <p style="margin-top: 10px; color: var(--primary); font-weight: bold;">— Séneca</p>
-      </div>
-    </section>
+      <section id="memento" class="section">
+        <div class="screen-title"><i data-lucide="hourglass" color="#ff6b00"></i> Memento Mori</div>
+        <div class="screen-subtitle">Recordá lo que realmente importa.</div>
 
-    <section id="rueda" class="section">
-      <h2><i data-lucide="pie-chart"></i> Rueda de la Vida</h2>
-      <div class="card">
-        <canvas id="wheelChart" style="max-height: 400px;"></canvas>
-      </div>
-    </section>
-
-    <section id="enfoque" class="section">
-      <h2><i data-lucide="timer"></i> Temporizador de Enfoque</h2>
-      <div class="tabs">
-        <button class="tab-btn active">Enfoque (25m)</button>
-        <button class="tab-btn">Descanso Corto (5m)</button>
-        <button class="tab-btn">Descanso Largo (15m)</button>
-      </div>
-      <div class="card" style="text-align: center;">
-        <div class="timer-display" id="timer">25:00</div>
-        <div class="timer-controls">
-          <button class="btn-action" onclick="toggleTimer()"><i data-lucide="play"></i> Iniciar</button>
-          <button class="btn-action" style="background:#444;" onclick="resetTimer()"><i data-lucide="rotate-ccw"></i> Reiniciar</button>
-        </div>
-      </div>
-    </section>
-
-    <section id="suenos" class="section">
-      <h2><i data-lucide="moon"></i> Sueños por Cumplir</h2>
-      <div class="grid">
         <div class="card">
-          <div class="card-title">Mis Grandes Sueños Personales</div>
-          <ul>
-            <li>Viajar por el mundo</li>
-            <li>Construir la casa de mis sueños</li>
-            <li>Escribir un libro</li>
-          </ul>
+          <div class="card-title">Semanas Vividas <span style="color:var(--primary)">1,780 / 4,160</span></div>
+          <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 43%;"></div></div>
+          <div style="text-align: right; font-size: 0.8rem; color: var(--text-muted);">43% consumido</div>
         </div>
-        <div class="card">
-          <div class="card-title">Sueños Profesionales</div>
-          <ul>
-            <li>Crear mi propia empresa</li>
-            <li>Dar conferencias inspiradoras</li>
-            <li>Ser líder en mi campo</li>
-          </ul>
-        </div>
-      </div>
-    </section>
 
-    <section id="entrenamiento" class="section">
-      <h2><i data-lucide="dumbbell"></i> Entrenamiento FORJA (8 Semanas)</h2>
-      <div class="card">
-        <div class="card-title">Rutina Semanal</div>
-        <ul>
-          <li><strong>Lunes:</strong> Pecho + Tríceps</li>
-          <li><strong>Martes:</strong> Espalda</li>
-          <li><strong>Miércoles:</strong> Piernas</li>
-          <li><strong>Jueves:</strong> Cardio HIIT</li>
-          <li><strong>Viernes:</strong> Hombros + Brazos</li>
-        </ul>
-      </div>
-    </section>
-
-    <section id="finanzas" class="section">
-      <h2><i data-lucide="wallet"></i> Gastos y Finanzas Personales</h2>
-      <div class="grid">
-        <div class="card">
-          <div class="card-title">Ingresos vs Egresos</div>
-          <canvas id="financeChart" style="max-height: 250px;"></canvas>
+        <div class="card" style="border-left: 3px solid var(--primary);">
+          <p style="font-style: italic; font-size: 0.95rem; line-height: 1.4;">"No es que tengamos poco tiempo, es que perdemos mucho."</p>
+          <p style="margin-top: 8px; font-size: 0.8rem; color: var(--primary); font-weight: bold;">— Séneca</p>
         </div>
+
+        <div class="card">
+          <div class="card-title">Reflexión del Día</div>
+          <div class="list-item">
+            <span style="font-size:0.85rem;">¿Cómo puedo aprovechar mejor el día?</span>
+            <i data-lucide="chevron-right" size="16" color="#666"></i>
+          </div>
+          <div class="list-item">
+            <span style="font-size:0.85rem;">¿Qué harías si solo te quedara 1 año?</span>
+            <i data-lucide="chevron-right" size="16" color="#666"></i>
+          </div>
+        </div>
+      </section>
+
+      <section id="rueda" class="section">
+        <div class="screen-title"><i data-lucide="pie-chart" color="#ff6b00"></i> Rueda de la Vida</div>
+        <div class="screen-subtitle">Evaluá tu equilibrio integral.</div>
+
+        <div class="card">
+          <canvas id="wheelChart" style="max-height: 260px;"></canvas>
+        </div>
+
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-lbl">Equilibrio General</div>
+            <div class="metric-val">7.2 pts</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-lbl">Racha Salud</div>
+            <div class="metric-val">15 Días</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="enfoque" class="section">
+        <div class="screen-title"><i data-lucide="timer" color="#ff6b00"></i> Temporizador FORJA</div>
+        <div class="screen-subtitle">Enfocate profundamente en lo importante.</div>
+
+        <div class="segmented-control">
+          <button class="segment-btn active">Enfoque</button>
+          <button class="segment-btn">D. Corto</button>
+          <button class="segment-btn">D. Largo</button>
+        </div>
+
+        <div class="card" style="text-align: center;">
+          <div class="timer-circle" id="timer">25:00</div>
+          <button style="background: var(--primary); color: white; border: none; padding: 12px 30px; border-radius: 25px; font-weight: bold; font-size: 1rem; cursor: pointer;" onclick="toggleTimer()">
+            INICIAR SESIÓN
+          </button>
+        </div>
+
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-lbl">Sesiones Completadas</div>
+            <div class="metric-val">18</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-lbl">Focos Hoy</div>
+            <div class="metric-val">3</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="suenos" class="section">
+        <div class="screen-title"><div style="display:flex; gap:8px;"><i data-lucide="moon" color="#ff6b00"></i> Sueños por Cumplir</div></div>
+        <div class="screen-subtitle">Proyectá tu futuro a largo plazo.</div>
+
+        <div class="card">
+          <div class="card-title">Grandes Sueños</div>
+          <div class="list-item">
+            <div class="item-left"><i data-lucide="plane" size="16" color="#ff6b00"></i> Viajar por el mundo</div>
+            <span class="badge">En progreso</span>
+          </div>
+          <div class="list-item">
+            <div class="item-left"><i data-lucide="home" size="16" color="#ff6b00"></i> Construir casa propia</div>
+            <span class="badge">Pendiente</span>
+          </div>
+          <div class="list-item">
+            <div class="item-left"><i data-lucide="book-open" size="16" color="#ff6b00"></i> Escribir un libro</div>
+            <span class="badge">Pendiente</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="entrenamiento" class="section">
+        <div class="screen-title"><i data-lucide="dumbbell" color="#ff6b00"></i> Entrenamiento FORJA</div>
+        <div class="screen-subtitle">Programa intensivo de 8 semanas.</div>
+
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-lbl">Calorías Quemadas</div>
+            <div class="metric-val">4,520 kcal</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-lbl">Streak Actual</div>
+            <div class="metric-val">12 Días</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Rutina Semanal</div>
+          <div class="list-item"><div class="item-left"><span style="color:var(--primary); font-weight:bold;">Lun</span> Pecho + Tríceps</div><i data-lucide="check-circle-2" size="18" color="#22c55e"></i></div>
+          <div class="list-item"><div class="item-left"><span style="color:var(--primary); font-weight:bold;">Mar</span> Espalda</div><i data-lucide="check-circle-2" size="18" color="#22c55e"></i></div>
+          <div class="list-item"><div class="item-left"><span style="color:var(--primary); font-weight:bold;">Mié</span> Piernas</div><i data-lucide="circle" size="18" color="#444"></i></div>
+          <div class="list-item"><div class="item-left"><span style="color:var(--primary); font-weight:bold;">Jue</span> Cardio HIIT</div><i data-lucide="circle" size="18" color="#444"></i></div>
+        </div>
+      </section>
+
+      <section id="finanzas" class="section">
+        <div class="screen-title"><i data-lucide="wallet" color="#ff6b00"></i> Finanzas Personales</div>
+        <div class="screen-subtitle">Control de egresos y balance mensual.</div>
+
+        <div class="card">
+          <div class="card-title">Balance de Flujo de Caja</div>
+          <canvas id="financeChart" style="max-height: 180px;"></canvas>
+        </div>
+
         <div class="card">
           <div class="card-title">Gastos Recurrentes</div>
-          <ul>
-            <li><span>Alquiler</span> <strong>$500</strong></li>
-            <li><span>Servicios</span> <strong>$120</strong></li>
-            <li><span>Suscripciones</span> <strong>$30</strong></li>
-          </ul>
+          <div class="list-item">
+            <div class="item-left"><i data-lucide="home" size="16" color="#a1a1aa"></i> Alquiler y expensas</div>
+            <strong style="font-size:0.9rem;">$ 500</strong>
+          </div>
+          <div class="list-item">
+            <div class="item-left"><i data-lucide="zap" size="16" color="#a1a1aa"></i> Servicios básicos</div>
+            <strong style="font-size:0.9rem;">$ 120</strong>
+          </div>
         </div>
-      </div>
-    </section>
-  </main>
+      </section>
+
+    </main>
+
+    <nav class="bottom-nav">
+      <button class="nav-item active" onclick="switchTab('metas', this)">
+        <i data-lucide="target" size="20"></i> Metas
+      </button>
+      <button class="nav-item" onclick="switchTab('memento', this)">
+        <i data-lucide="hourglass" size="20"></i> Memento
+      </button>
+      <button class="nav-item" onclick="switchTab('rueda', this)">
+        <i data-lucide="pie-chart" size="20"></i> Rueda
+      </button>
+      <button class="nav-item" onclick="switchTab('enfoque', this)">
+        <i data-lucide="timer" size="20"></i> Enfoque
+      </button>
+      <button class="nav-item" onclick="switchTab('suenos', this)">
+        <i data-lucide="moon" size="20"></i> Sueños
+      </button>
+      <button class="nav-item" onclick="switchTab('entrenamiento', this)">
+        <i data-lucide="dumbbell" size="20"></i> Fitness
+      </button>
+      <button class="nav-item" onclick="switchTab('finanzas', this)">
+        <i data-lucide="wallet" size="20"></i> Finanzas
+      </button>
+    </nav>
+  </div>
 
   <script>
-    // Lucide Icons setup
+    // Inicializar íconos
     lucide.createIcons();
 
-    // Tab Switching Logic
-    function switchTab(sectionId) {
+    // Lógica de cambio de pestañas desde la barra inferior
+    function switchTab(sectionId, element) {
       document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
-      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
 
       document.getElementById(sectionId).classList.add('active');
-      event.currentTarget.classList.add('active');
+      element.classList.add('active');
     }
 
-    // Chart.js - Rueda de la Vida
+    // Chart.js - Rueda de la Vida (Radar)
     const ctxWheel = document.getElementById('wheelChart').getContext('2d');
     new Chart(ctxWheel, {
       type: 'radar',
       data: {
-        labels: ['Salud y Deporte', 'Familia y Amor', 'Trabajo/Finanzas', 'Ocio y Amistad', 'Tiempo para mí', 'Emocional', 'Espiritual/Ética'],
+        labels: ['Salud', 'Familia', 'Trabajo', 'Ocio', 'Tiempo Mí', 'Emocional', 'Ética'],
         datasets: [{
-          label: 'Este Mes',
           data: [10, 8, 5, 6, 8, 7, 9],
-          fill: true,
-          backgroundColor: 'rgba(255, 107, 0, 0.2)',
+          backgroundColor: 'rgba(255, 107, 0, 0.25)',
           borderColor: '#ff6b00',
-          pointBackgroundColor: '#ff6b00'
+          pointBackgroundColor: '#ff6b00',
+          pointRadius: 3
         }]
       },
       options: {
-        scales: { r: { min: 0, max: 10, ticks: { display: false } } }
+        plugins: { legend: { display: false } },
+        scales: {
+          r: {
+            angleLines: { color: '#27272a' },
+            grid: { color: '#27272a' },
+            pointLabels: { color: '#a1a1aa', font: { size: 10 } },
+            ticks: { display: false }
+          }
+        }
       }
     });
 
-    // Chart.js - Finanzas
+    // Chart.js - Finanzas (Barras)
     const ctxFinance = document.getElementById('financeChart').getContext('2d');
     new Chart(ctxFinance, {
       type: 'bar',
       data: {
         labels: ['Ene', 'Feb', 'Mar', 'Abr'],
         datasets: [
-          { label: 'Ingresos', data: [2000, 2200, 2100, 2400], backgroundColor: '#2ea043' },
-          { label: 'Egresos', data: [1200, 1500, 1100, 1300], backgroundColor: '#ff6b00' }
+          { label: 'Ingresos', data: [2000, 2200, 2100, 2400], backgroundColor: '#22c55e', borderRadius: 4 },
+          { label: 'Egresos', data: [1200, 1500, 1100, 1300], backgroundColor: '#ff6b00', borderRadius: 4 }
         ]
+      },
+      options: {
+        plugins: { legend: { labels: { color: '#a1a1aa', font: { size: 10 } } } },
+        scales: {
+          x: { grid: { display: false }, ticks: { color: '#a1a1aa' } },
+          y: { grid: { color: '#27272a' }, ticks: { color: '#a1a1aa' } }
+        }
       }
     });
 
-    // Simple Timer Logic
+    // Temporizador
     let timerInterval;
     let secondsLeft = 1500;
     
@@ -418,13 +573,6 @@
           if (secondsLeft <= 0) clearInterval(timerInterval);
         }, 1000);
       }
-    }
-
-    function resetTimer() {
-      clearInterval(timerInterval);
-      timerInterval = null;
-      secondsLeft = 1500;
-      document.getElementById('timer').innerText = "25:00";
     }
   </script>
 </body>
