@@ -16,6 +16,7 @@
       --text: #f4f4f5;
       --text-muted: #a1a1aa;
       --success: #22c55e;
+      --danger: #ef4444;
       --accent-blue: #3b82f6;
       --accent-purple: #a855f7;
     }
@@ -157,7 +158,7 @@
     }
 
     .metric-val {
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       font-weight: 700;
       color: var(--primary);
       margin-top: 4px;
@@ -172,7 +173,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 12px 0;
+      padding: 10px 0;
       border-bottom: 1px solid rgba(255,255,255,0.05);
     }
 
@@ -184,10 +185,9 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
     }
 
-    /* Grid de Hábitos Matutinos */
     .habits-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -222,7 +222,6 @@
       color: var(--text-muted);
     }
 
-    /* Calendario de Checkboxes semanal */
     .week-tracker {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
@@ -251,7 +250,6 @@
       color: white;
     }
 
-    /* Heatmap / Grid mensual */
     .heatmap-grid {
       display: grid;
       grid-template-columns: repeat(10, 1fr);
@@ -285,18 +283,17 @@
     }
 
     .timer-circle {
-      width: 180px;
-      height: 180px;
+      width: 190px;
+      height: 190px;
       border-radius: 50%;
       border: 6px solid var(--card-border);
       border-top-color: var(--primary);
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       margin: 15px auto;
-      font-size: 2.8rem;
-      font-weight: 800;
-      color: var(--text);
+      box-shadow: 0 0 20px rgba(255,107,0,0.1);
     }
 
     .bottom-nav {
@@ -331,7 +328,7 @@
     }
 
     .badge {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       padding: 2px 8px;
       border-radius: 12px;
       background: var(--primary-light);
@@ -342,19 +339,26 @@
     .quote-box {
       border-left: 3px solid var(--primary);
       padding-left: 12px;
-      margin: 12px 0;
+      margin: 8px 0;
     }
 
-    .accordion-item {
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-      padding: 10px 0;
+    .btn-action {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 20px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.2s;
     }
 
-    .accordion-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.9rem;
+    .btn-secondary {
+      background: #27272a;
+      color: var(--text-muted);
+      border: none;
+      padding: 10px 16px;
+      border-radius: 20px;
       font-weight: 600;
       cursor: pointer;
     }
@@ -378,7 +382,7 @@
           <div style="display: flex; justify-content: space-between; align-items: center;">
             <div>
               <span style="font-size: 0.8rem; color: var(--text-muted);">Racha Actual</span>
-              <div style="font-size: 1.5rem; font-weight: 800; color: var(--primary);">🔥 12 DÍAS</div>
+              <div style="font-size: 1.5rem; font-weight: 800; color: var(--primary);">🔥 14 DÍAS</div>
             </div>
             <div style="text-align: right;">
               <span style="font-size: 0.8rem; color: var(--text-muted);">Completado Hoy</span>
@@ -389,15 +393,15 @@
         </div>
 
         <div class="card">
-          <div class="card-title">Abril 2026</div>
+          <div class="card-title">Septiembre 2026</div>
           <div class="week-tracker">
-            <div class="day-col">LUN<br>14<div class="check-box-square active"><i data-lucide="check" size="12"></i></div></div>
-            <div class="day-col">MAR<br>15<div class="check-box-square active"><i data-lucide="check" size="12"></i></div></div>
-            <div class="day-col">MIÉ<br>16<div class="check-box-square active"><i data-lucide="check" size="12"></i></div></div>
-            <div class="day-col">JUE<br>17<div class="check-box-square active"><i data-lucide="check" size="12"></i></div></div>
-            <div class="day-col">VIE<br>18<div class="check-box-square active"><i data-lucide="check" size="12"></i></div></div>
-            <div class="day-col">SÁB<br>19<div class="check-box-square active"><i data-lucide="check" size="12"></i></div></div>
-            <div class="day-col">DOM<br>20<div class="check-box-square"><i data-lucide="check" size="12"></i></div></div>
+            <div class="day-col">LUN<br>31<div class="check-box-square active"><i data-lucide="check" size="12"></i></div></div>
+            <div class="day-col">MAR<br>1<div class="check-box-square active"><i data-lucide="check" size="12"></i></div></div>
+            <div class="day-col">MIÉ<br>2<div class="check-box-square active"><i data-lucide="check" size="12"></i></div></div>
+            <div class="day-col">JUE<br>3<div class="check-box-square active"><i data-lucide="check" size="12"></i></div></div>
+            <div class="day-col">VIE<br>4<div class="check-box-square active"><i data-lucide="check" size="12"></i></div></div>
+            <div class="day-col">SÁB<br>5<div class="check-box-square"><i data-lucide="check" size="12"></i></div></div>
+            <div class="day-col">DOM<br>6<div class="check-box-square"><i data-lucide="check" size="12"></i></div></div>
           </div>
         </div>
 
@@ -406,7 +410,7 @@
           <div class="habits-grid">
             <div class="habit-tile done" onclick="this.classList.toggle('done')">
               <div class="habit-header"><i data-lucide="sun" size="16" color="#ff6b00"></i> Meditación</div>
-              <div class="habit-time">10 min</div>
+              <div class="habit-time">15 min</div>
             </div>
             <div class="habit-tile done" onclick="this.classList.toggle('done')">
               <div class="habit-header"><i data-lucide="shower-head" size="16" color="#3b82f6"></i> Ducha Fría</div>
@@ -414,11 +418,11 @@
             </div>
             <div class="habit-tile done" onclick="this.classList.toggle('done')">
               <div class="habit-header"><i data-lucide="apple" size="16" color="#22c55e"></i> Desayuno</div>
-              <div class="habit-time">Saludable</div>
+              <div class="habit-time">Proteico</div>
             </div>
             <div class="habit-tile" onclick="this.classList.toggle('done')">
-              <div class="habit-header"><i data-lucide="book-open" size="16" color="#ff6b00"></i> Lectura</div>
-              <div class="habit-time">15 min</div>
+              <div class="habit-header"><i data-lucide="book-open" size="16" color="#a855f7"></i> Lectura</div>
+              <div class="habit-time">20 pág.</div>
             </div>
           </div>
         </div>
@@ -426,37 +430,24 @@
         <div class="metrics-grid">
           <div class="metric-card">
             <div class="metric-lbl">Horas Dormidas</div>
-            <div class="metric-val">7.5 h</div>
+            <div class="metric-val">7.8 h</div>
           </div>
           <div class="metric-card">
             <div class="metric-lbl">Min. Meditación</div>
-            <div class="metric-val">60 min</div>
+            <div class="metric-val">105 min</div>
           </div>
         </div>
 
         <div class="card">
           <div class="card-title">Progreso Semanal de Hábitos</div>
-          <canvas id="habitsChart" style="max-height: 180px;"></canvas>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Constancia del Mes <span class="badge">8 Días Perfectos</span></div>
-          <div class="heatmap-grid">
-            <div class="heat-square lvl-3"></div><div class="heat-square lvl-3"></div><div class="heat-square lvl-2"></div>
-            <div class="heat-square lvl-3"></div><div class="heat-square lvl-1"></div><div class="heat-square lvl-2"></div>
-            <div class="heat-square lvl-3"></div><div class="heat-square lvl-3"></div><div class="heat-square lvl-2"></div>
-            <div class="heat-square lvl-3"></div><div class="heat-square lvl-1"></div><div class="heat-square lvl-2"></div>
-            <div class="heat-square lvl-3"></div><div class="heat-square lvl-3"></div><div class="heat-square lvl-3"></div>
-            <div class="heat-square lvl-2"></div><div class="heat-square lvl-1"></div><div class="heat-square lvl-3"></div>
-            <div class="heat-square"></div><div class="heat-square"></div>
-          </div>
+          <canvas id="habitsChart" style="max-height: 170px;"></canvas>
         </div>
       </section>
 
       <!-- 2. SECCIÓN MEMENTO MORI -->
       <section id="memento" class="section">
         <div class="screen-title"><i data-lucide="hourglass" color="#ff6b00"></i> Memento Mori</div>
-        <div class="screen-subtitle">Recordá lo que realmente importa y viví con propósito.</div>
+        <div class="screen-subtitle">Recordá lo que importa y actuá con urgencia.</div>
 
         <div class="segmented-control">
           <button class="segment-btn active" onclick="switchMementoView('personal', this)">Personal</button>
@@ -467,69 +458,53 @@
           <div class="card">
             <div class="card-title">Semanas Vividas (Expectativa 80 Años)</div>
             <div style="display: flex; justify-content: space-between; align-items: baseline; margin-top: 4px;">
-              <span style="font-size: 1.4rem; font-weight: 800; color: var(--primary);">1,780 <span style="font-size: 0.9rem; color: var(--text-muted); font-weight: 400;">de 4,160</span></span>
-              <span style="font-size: 1.1rem; font-weight: 700; color: var(--text);">43%</span>
+              <span style="font-size: 1.4rem; font-weight: 800; color: var(--primary);">1,820 <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 400;">de 4,160</span></span>
+              <span style="font-size: 1.1rem; font-weight: 700; color: var(--text);">43.7%</span>
             </div>
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 43%;"></div></div>
+            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 43.7%;"></div></div>
           </div>
 
           <div class="card">
             <div class="quote-box">
-              <p style="font-style: italic; font-size: 0.9rem; line-height: 1.4; color: #e4e4e7;">"No es que tengamos poco tiempo, es que perdemos mucho."</p>
+              <p style="font-style: italic; font-size: 0.88rem; line-height: 1.4; color: #e4e4e7;">"No es que tengamos poco tiempo, es que perdemos mucho."</p>
               <p style="margin-top: 6px; font-size: 0.8rem; color: var(--primary); font-weight: bold;">— Séneca</p>
             </div>
           </div>
 
           <div class="card">
-            <div class="card-title"><i data-lucide="check-circle-2" size="16" color="#22c55e"></i> Reflexión del Día</div>
-            <div class="accordion-item">
-              <div class="accordion-header">
-                <span><i data-lucide="compass" size="16" color="#ff6b00"></i> ¿Cómo puedo aprovechar mejor el día de hoy?</span>
-                <i data-lucide="chevron-right" size="16" color="#666"></i>
-              </div>
-            </div>
-            <div class="accordion-item">
-              <div class="accordion-header">
-                <span><i data-lucide="trophy" size="16" color="#ff6b00"></i> ¿Qué harías si solo te quedara un año de vida?</span>
-                <i data-lucide="chevron-right" size="16" color="#666"></i>
-              </div>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-title">Mis Sueños Personales</div>
+            <div class="card-title">Reflexiones Diarias</div>
             <div class="list-item">
-              <div class="item-left"><i data-lucide="zap" size="18" color="#ff6b00"></i> Mejorar mi Salud y Energía</div>
-              <i data-lucide="chevron-right" size="16" color="#666"></i>
+              <div class="item-left"><i data-lucide="compass" size="18" color="#ff6b00"></i> ¿Qué avance concreto hice hoy?</div>
+              <i data-lucide="check-circle-2" size="16" color="#22c55e"></i>
             </div>
             <div class="list-item">
-              <div class="item-left"><i data-lucide="heart" size="18" color="#ff6b00"></i> Crear una familia sólida</div>
-              <i data-lucide="chevron-right" size="16" color="#666"></i>
+              <div class="item-left"><i data-lucide="heart" size="18" color="#ff6b00"></i> Dije a mis seres queridos lo que importan</div>
+              <i data-lucide="check-circle-2" size="16" color="#22c55e"></i>
             </div>
           </div>
         </div>
 
         <div id="memento-profesional" style="display: none;">
           <div class="card">
-            <div class="card-title">Semanas de Carrera (40 Años Laborales)</div>
+            <div class="card-title">Semanas de Carrera (40 Años)</div>
             <div style="display: flex; justify-content: space-between; align-items: baseline; margin-top: 4px;">
-              <span style="font-size: 1.4rem; font-weight: 800; color: var(--accent-blue);">520 <span style="font-size: 0.9rem; color: var(--text-muted); font-weight: 400;">de 2,080</span></span>
-              <span style="font-size: 1.1rem; font-weight: 700; color: var(--text);">25%</span>
+              <span style="font-size: 1.4rem; font-weight: 800; color: var(--accent-blue);">560 <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 400;">de 2,080</span></span>
+              <span style="font-size: 1.1rem; font-weight: 700; color: var(--text);">26.9%</span>
             </div>
-            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 25%; background: linear-gradient(90deg, #3b82f6, #60a5fa);"></div></div>
+            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 26.9%; background: linear-gradient(90deg, #3b82f6, #60a5fa);"></div></div>
           </div>
         </div>
       </section>
 
       <!-- 3. SECCIÓN ESTADÍSTICAS -->
       <section id="estadisticas" class="section">
-        <div class="screen-title"><i data-lucide="bar-chart-3" color="#ff6b00"></i> Estadísticas y Rachas</div>
-        <div class="screen-subtitle">Análisis de rendimiento, consistencia y evolución.</div>
+        <div class="screen-title"><i data-lucide="bar-chart-3" color="#ff6b00"></i> Estadísticas</div>
+        <div class="screen-subtitle">Análisis de rendimiento y consistencia.</div>
 
         <div class="metrics-grid">
           <div class="metric-card">
             <div class="metric-lbl">Racha Actual</div>
-            <div class="metric-val" style="color: var(--primary);">🔥 12 Días</div>
+            <div class="metric-val" style="color: var(--primary);">🔥 14 Días</div>
           </div>
           <div class="metric-card">
             <div class="metric-lbl">Racha Máxima</div>
@@ -538,68 +513,68 @@
         </div>
 
         <div class="card">
-          <div class="card-title">Evolución de Consistencia (4 Meses)</div>
-          <canvas id="evolutionChart" style="max-height: 180px;"></canvas>
+          <div class="card-title">Evolución de Consistencia</div>
+          <canvas id="evolutionChart" style="max-height: 170px;"></canvas>
         </div>
 
         <div class="card">
           <div class="card-title">Distribución del Tiempo Semanal</div>
-          <canvas id="distributionChart" style="max-height: 200px;"></canvas>
+          <canvas id="distributionChart" style="max-height: 190px;"></canvas>
         </div>
       </section>
 
       <!-- 4. SECCIÓN OBJETIVOS Y METAS -->
       <section id="metas" class="section">
         <div class="screen-title"><i data-lucide="target" color="#ff6b00"></i> Objetivos y Metas</div>
-        <div class="screen-subtitle">Definí tus objetivos y alcanzá metas clave.</div>
+        <div class="screen-subtitle">Planificación estratégica de metas clave.</div>
 
-        <div class="segmented-control">
-          <button class="segment-btn active" onclick="switchMetasView('personal', this)">Personal</button>
-          <button class="segment-btn" onclick="switchMetasView('profesional', this)">Profesional</button>
+        <div class="card">
+          <div class="card-title">Meta Principal Q3 2026 <span class="badge">75%</span></div>
+          <div style="font-weight: 700; font-size: 1rem; margin-bottom: 6px;">Consolidar Sistema ERP y Reducir Deuda</div>
+          <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 75%;"></div></div>
         </div>
 
         <div class="card">
-          <div class="card-title">Resumen Anual 2026 <span class="badge">60%</span></div>
-          <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 60%;"></div></div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Primer Trimestre (Q1)</div>
+          <div class="card-title">Hitos del Trimestre</div>
           <div class="list-item">
-            <div class="item-left"><i data-lucide="book-open" size="18" color="#ff6b00"></i> Leer 20 Libros de Crecimiento</div>
-            <span style="font-size: 0.75rem; color: var(--primary); font-weight: bold;">14/20</span>
+            <div class="item-left"><i data-lucide="code" size="18" color="#3b82f6"></i> Módulo de Carga de Fotos PHP/JS</div>
+            <span style="font-size: 0.75rem; color: var(--success); font-weight: bold;">Listo</span>
           </div>
           <div class="list-item">
-            <div class="item-left"><i data-lucide="dumbbell" size="18" color="#ff6b00"></i> Rutina de Fuerza 4x/sem</div>
-            <span style="font-size: 0.75rem; color: var(--success); font-weight: bold;">100%</span>
+            <div class="item-left"><i data-lucide="book-open" size="18" color="#ff6b00"></i> Leer 15 libros del año</div>
+            <span style="font-size: 0.75rem; color: var(--primary); font-weight: bold;">11 / 15</span>
+          </div>
+          <div class="list-item">
+            <div class="item-left"><i data-lucide="dumbbell" size="18" color="#a855f7"></i> Alcanzar 85kg en Press de Banca</div>
+            <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: bold;">80kg actual</span>
           </div>
         </div>
       </section>
 
       <!-- 5. SECCIÓN ENTRENAMIENTO -->
       <section id="entrenamiento" class="section">
-        <div class="screen-title"><i data-lucide="dumbbell" color="#ff6b00"></i> Entrenamiento y Fuerza</div>
-        <div class="screen-subtitle">Registro de rutinas, cargas y volumen semanal.</div>
+        <div class="screen-title"><i data-lucide="dumbbell" color="#ff6b00"></i> Entrenamiento</div>
+        <div class="screen-subtitle">Bitácora de cargas y volumen muscular.</div>
 
         <div class="metrics-grid">
           <div class="metric-card">
             <div class="metric-lbl">Sesiones este Mes</div>
-            <div class="metric-val" style="color: var(--primary);">16</div>
+            <div class="metric-val" style="color: var(--primary);">18</div>
           </div>
           <div class="metric-card">
-            <div class="metric-lbl">Volumen Total</div>
-            <div class="metric-val" style="color: var(--success);">14,250 kg</div>
+            <div class="metric-lbl">Volumen Levantado</div>
+            <div class="metric-val" style="color: var(--success);">16,400 kg</div>
           </div>
         </div>
 
         <div class="card">
-          <div class="card-title">Rutina de Hoy — Hipertrofia A</div>
+          <div class="card-title">Sesión de Hoy — Torso / Empuje</div>
           <div class="list-item">
             <div class="item-left">
               <i data-lucide="disc" size="18" color="#ff6b00"></i>
               <div>
                 <div style="font-weight: 600;">Press de Banca Plano</div>
-                <div style="font-size: 0.75rem; color: var(--text-muted);">4 series × 8-10 reps</div>
+                <div style="font-size: 0.72rem; color: var(--text-muted);">4 series × 8 reps</div>
               </div>
             </div>
             <span style="font-weight: bold; font-size: 0.85rem; color: var(--primary);">80 kg</span>
@@ -609,7 +584,7 @@
               <i data-lucide="disc" size="18" color="#ff6b00"></i>
               <div>
                 <div style="font-weight: 600;">Dominadas Lastradas</div>
-                <div style="font-size: 0.75rem; color: var(--text-muted);">4 series × 6-8 reps</div>
+                <div style="font-size: 0.72rem; color: var(--text-muted);">4 series × 6 reps</div>
               </div>
             </div>
             <span style="font-weight: bold; font-size: 0.85rem; color: var(--primary);">+15 kg</span>
@@ -618,80 +593,252 @@
             <div class="item-left">
               <i data-lucide="disc" size="18" color="#ff6b00"></i>
               <div>
-                <div style="font-weight: 600;">Press Militar con Barra</div>
-                <div style="font-size: 0.75rem; color: var(--text-muted);">3 series × 10 reps</div>
+                <div style="font-weight: 600;">Press Militar Barra</div>
+                <div style="font-size: 0.72rem; color: var(--text-muted);">3 series × 10 reps</div>
               </div>
             </div>
-            <span style="font-weight: bold; font-size: 0.85rem; color: var(--primary);">50 kg</span>
+            <span style="font-weight: bold; font-size: 0.85rem; color: var(--primary);">52.5 kg</span>
           </div>
         </div>
 
         <div class="card">
-          <div class="card-title">Progresión de Fuerza (Press de Banca)</div>
-          <canvas id="trainingChart" style="max-height: 180px;"></canvas>
+          <div class="card-title">Progresión Press de Banca (kg)</div>
+          <canvas id="trainingChart" style="max-height: 160px;"></canvas>
         </div>
       </section>
 
       <!-- 6. SECCIÓN RUEDA DE LA VIDA -->
       <section id="rueda" class="section">
         <div class="screen-title"><i data-lucide="pie-chart" color="#ff6b00"></i> Rueda de la Vida</div>
-        <div class="screen-subtitle">Evaluá tu equilibrio integral y balance personal.</div>
+        <div class="screen-subtitle">Balance y autoevaluación multidimensional.</div>
 
         <div class="card">
-          <canvas id="wheelChart" style="max-height: 260px;"></canvas>
+          <canvas id="wheelChart" style="max-height: 250px;"></canvas>
         </div>
 
         <div class="card">
-          <div class="card-title">Puntuación por Área</div>
+          <div class="card-title">Evaluación por Áreas</div>
           <div class="list-item">
-            <div class="item-left"><i data-lucide="heart-pulse" size="18" color="#22c55e"></i> Salud y Estado Físico</div>
-            <span style="font-weight: bold; color: var(--success);">10 / 10</span>
+            <div class="item-left"><i data-lucide="heart-pulse" size="18" color="#22c55e"></i> Salud & Deporte</div>
+            <span style="font-weight: bold; color: var(--success);">9.5 / 10</span>
           </div>
           <div class="list-item">
-            <div class="item-left"><i data-lucide="users" size="18" color="#3b82f6"></i> Familia y Relaciones</div>
-            <span style="font-weight: bold; color: var(--accent-blue);">8 / 10</span>
+            <div class="item-left"><i data-lucide="code" size="18" color="#3b82f6"></i> Carrera & Desarrollo</div>
+            <span style="font-weight: bold; color: var(--accent-blue);">8.5 / 10</span>
+          </div>
+          <div class="list-item">
+            <div class="item-left"><i data-lucide="wallet" size="18" color="#ff6b00"></i> Finanzas Personales</div>
+            <span style="font-weight: bold; color: var(--primary);">8.0 / 10</span>
           </div>
         </div>
       </section>
 
-      <!-- 7. SECCIÓN ENFOQUE / POMODORO -->
+      <!-- 7. SECCIÓN ENFOQUE / TEMPORIZADOR (POBLADA) -->
       <section id="enfoque" class="section">
-        <div class="screen-title"><i data-lucide="timer" color="#ff6b00"></i> Temporizador FORJA</div>
-        <div class="screen-subtitle">Enfocate profundamente en tareas clave.</div>
+        <div class="screen-title"><i data-lucide="timer" color="#ff6b00"></i> Enfoque y Pomodoro</div>
+        <div class="screen-subtitle">Gestión de sesiones de trabajo profundo y descanso.</div>
 
-        <div class="card" style="text-align: center;">
-          <div class="timer-circle" id="timer">25:00</div>
-          <div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px;">
-            <button style="background: var(--primary); color: white; border: none; padding: 12px 24px; border-radius: 25px; font-weight: bold; cursor: pointer;" onclick="toggleTimer()">INICIAR</button>
-            <button style="background: #27272a; color: var(--text-muted); border: none; padding: 12px 20px; border-radius: 25px; font-weight: bold; cursor: pointer;" onclick="resetTimer()">REINICIAR</button>
+        <!-- Métrica rápida -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-lbl">Pomodoros Hoy</div>
+            <div class="metric-val" style="color: var(--primary);">6 / 8 <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: normal;">(2.5h)</span></div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-lbl">Tiempo Total Semanal</div>
+            <div class="metric-val" style="color: var(--success);">18.5 hrs</div>
+          </div>
+        </div>
+
+        <!-- Modos de Temporizador -->
+        <div class="segmented-control">
+          <button class="segment-btn active" onclick="setTimerMode(25, this)">Pomodoro (25m)</button>
+          <button class="segment-btn" onclick="setTimerMode(5, this)">Corta (5m)</button>
+          <button class="segment-btn" onclick="setTimerMode(15, this)">Larga (15m)</button>
+        </div>
+
+        <!-- Temporizador Central -->
+        <div class="card" style="text-align: center; background: linear-gradient(180deg, #18181b 0%, #202025 100%);">
+          <span id="timer-status" style="font-size: 0.8rem; letter-spacing: 1px; color: var(--primary); font-weight: 700;">ENFOQUE ACTIVO</span>
+          
+          <div class="timer-circle">
+            <div id="timer" style="font-size: 2.8rem; font-weight: 800; color: var(--text);">25:00</div>
+            <span style="font-size: 0.75rem; color: var(--text-muted); margin-top: -4px;">Sesión #7</span>
+          </div>
+
+          <div style="display: flex; justify-content: center; gap: 12px; margin-top: 10px;">
+            <button class="btn-action" onclick="toggleTimer()" id="btn-start"><i data-lucide="play" size="16" style="vertical-align: middle;"></i> Iniciar</button>
+            <button class="btn-secondary" onclick="resetTimer()"><i data-lucide="rotate-ccw" size="16" style="vertical-align: middle;"></i> Reiniciar</button>
+          </div>
+        </div>
+
+        <!-- Tarea actual asociada -->
+        <div class="card">
+          <div class="card-title">Tarea en Curso <span class="badge">PHP / MySQL</span></div>
+          <div style="display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 0.9rem;">
+            <i data-lucide="terminal" color="#ff6b00" size="20"></i>
+            <span>Optimización de endpoints para subida de imágenes en OS</span>
+          </div>
+        </div>
+
+        <!-- Historial de sesiones del día -->
+        <div class="card">
+          <div class="card-title">Sesiones Completadas Hoy</div>
+          <div class="list-item">
+            <div class="item-left">
+              <i data-lucide="check-circle-2" size="18" color="#22c55e"></i>
+              <div>
+                <div style="font-weight: 600;">Refactorización de base64 en MySQL</div>
+                <div style="font-size: 0.72rem; color: var(--text-muted);">09:30 - 09:55 hs</div>
+              </div>
+            </div>
+            <span style="font-size: 0.75rem; color: var(--text-muted);">25 min</span>
+          </div>
+          <div class="list-item">
+            <div class="item-left">
+              <i data-lucide="check-circle-2" size="18" color="#22c55e"></i>
+              <div>
+                <div style="font-weight: 600;">Revisión de tablas SQL y triggers</div>
+                <div style="font-size: 0.72rem; color: var(--text-muted);">10:05 - 10:30 hs</div>
+              </div>
+            </div>
+            <span style="font-size: 0.75rem; color: var(--text-muted);">25 min</span>
+          </div>
+          <div class="list-item">
+            <div class="item-left">
+              <i data-lucide="check-circle-2" size="18" color="#22c55e"></i>
+              <div>
+                <div style="font-weight: 600;">Diseño de interfaz de usuario FORJA</div>
+                <div style="font-size: 0.72rem; color: var(--text-muted);">11:00 - 11:25 hs</div>
+              </div>
+            </div>
+            <span style="font-size: 0.75rem; color: var(--text-muted);">25 min</span>
           </div>
         </div>
       </section>
 
-      <!-- 8. SECCIÓN FINANZAS -->
+      <!-- 8. SECCIÓN FINANZAS (POBLADA) -->
       <section id="finanzas" class="section">
         <div class="screen-title"><i data-lucide="wallet" color="#ff6b00"></i> Finanzas Personales</div>
-        <div class="screen-subtitle">Control de ingresos, gastos y presupuesto.</div>
+        <div class="screen-subtitle">Registro consolidado de ingresos, cobros y pagos.</div>
+
+        <!-- Tarjeta Resumen -->
+        <div class="card" style="background: linear-gradient(135deg, #18181b, #222226); border-color: #333338;">
+          <div style="font-size: 0.8rem; color: var(--text-muted);">Balance Neto Mensual</div>
+          <div style="font-size: 1.8rem; font-weight: 900; color: var(--success); margin: 4px 0;">+$1,150.00 <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 400;">USD / Eq.</span></div>
+          <div style="display: flex; gap: 15px; margin-top: 8px; font-size: 0.8rem;">
+            <span style="color: var(--success);"><i data-lucide="arrow-down-left" size="14"></i> Cobrado: $2,800.00</span>
+            <span style="color: var(--danger);"><i data-lucide="arrow-up-right" size="14"></i> Pagado: $1,650.00</span>
+          </div>
+        </div>
 
         <div class="metrics-grid">
           <div class="metric-card">
-            <div class="metric-lbl">Ingresos Mensuales</div>
-            <div class="metric-val" style="color: var(--success);">$2,400</div>
+            <div class="metric-lbl">Ahorro / Inversiones</div>
+            <div class="metric-val" style="color: var(--accent-blue);">$850.00</div>
           </div>
           <div class="metric-card">
-            <div class="metric-lbl">Egresos Mensuales</div>
-            <div class="metric-val" style="color: var(--primary);">$1,300</div>
+            <div class="metric-lbl">Gastos Fijos Restantes</div>
+            <div class="metric-val" style="color: var(--primary);">$120.00</div>
           </div>
         </div>
 
+        <!-- Gráfico de balance mensual -->
         <div class="card">
-          <div class="card-title">Balance de Flujo de Caja</div>
-          <canvas id="financeChart" style="max-height: 180px;"></canvas>
+          <div class="card-title">Flujo de Caja Trimestral</div>
+          <canvas id="financeChart" style="max-height: 160px;"></canvas>
+        </div>
+
+        <!-- Cobros e Ingresos de Sueldo -->
+        <div class="card">
+          <div class="card-title"><span style="display: flex; align-items: center; gap: 6px;"><i data-lucide="arrow-down-left" color="#22c55e" size="18"></i> Cobros & Ingresos</span> <span class="badge" style="background: rgba(34,197,94,0.15); color: var(--success);">$2,800.00</span></div>
+          
+          <div class="list-item">
+            <div class="item-left">
+              <i data-lucide="briefcase" size="18" color="#22c55e"></i>
+              <div>
+                <div style="font-weight: 600;">Sueldo / Honorarios Desarrollo PHP</div>
+                <div style="font-size: 0.72rem; color: var(--text-muted);">01 Sep 2026 • Transferencia Bancaria</div>
+              </div>
+            </div>
+            <span style="font-weight: 700; color: var(--success); font-size: 0.9rem;">+$2,300.00</span>
+          </div>
+
+          <div class="list-item">
+            <div class="item-left">
+              <i data-lucide="wrench" size="18" color="#22c55e"></i>
+              <div>
+                <div style="font-weight: 600;">Relevamiento Granel / Consultoría</div>
+                <div style="font-size: 0.72rem; color: var(--text-muted);">28 Ago 2026 • Trabajo Independiente</div>
+              </div>
+            </div>
+            <span style="font-weight: 700; color: var(--success); font-size: 0.9rem;">+$500.00</span>
+          </div>
+        </div>
+
+        <!-- Pagos Realizados y Servicios -->
+        <div class="card">
+          <div class="card-title"><span style="display: flex; align-items: center; gap: 6px;"><i data-lucide="arrow-up-right" color="#ef4444" size="18"></i> Pagos & Egresos Realizados</span> <span class="badge" style="background: rgba(239,68,68,0.15); color: var(--danger);">$1,650.00</span></div>
+          
+          <div class="list-item">
+            <div class="item-left">
+              <i data-lucide="home" size="18" color="#ef4444"></i>
+              <div>
+                <div style="font-weight: 600;">Alquiler & Expensas</div>
+                <div style="font-size: 0.72rem; color: var(--text-muted);">02 Sep 2026 • Pago Débito Automático</div>
+              </div>
+            </div>
+            <span style="font-weight: 700; color: var(--danger); font-size: 0.9rem;">-$850.00</span>
+          </div>
+
+          <div class="list-item">
+            <div class="item-left">
+              <i data-lucide="shopping-cart" size="18" color="#ef4444"></i>
+              <div>
+                <div style="font-weight: 600;">Supermercado & Alimentación</div>
+                <div style="font-size: 0.72rem; color: var(--text-muted);">02 Sep 2026 • Tarjeta de Débito</div>
+              </div>
+            </div>
+            <span style="font-weight: 700; color: var(--danger); font-size: 0.9rem;">-$320.00</span>
+          </div>
+
+          <div class="list-item">
+            <div class="item-left">
+              <i data-lucide="dumbbell" size="18" color="#ef4444"></i>
+              <div>
+                <div style="font-weight: 600;">Cuota Club / Tenis de Mesa Ferro</div>
+                <div style="font-size: 0.72rem; color: var(--text-muted);">01 Sep 2026 • Mercado Pago</div>
+              </div>
+            </div>
+            <span style="font-weight: 700; color: var(--danger); font-size: 0.9rem;">-$80.00</span>
+          </div>
+
+          <div class="list-item">
+            <div class="item-left">
+              <i data-lucide="wifi" size="18" color="#ef4444"></i>
+              <div>
+                <div style="font-weight: 600;">Servicios (Internet, Luz, Gas)</div>
+                <div style="font-size: 0.72rem; color: var(--text-muted);">30 Ago 2026 • Pago Mis Cuentas</div>
+              </div>
+            </div>
+            <span style="font-weight: 700; color: var(--danger); font-size: 0.9rem;">-$150.00</span>
+          </div>
+
+          <div class="list-item">
+            <div class="item-left">
+              <i data-lucide="server" size="18" color="#ef4444"></i>
+              <div>
+                <div style="font-weight: 600;">Hosting VPS & Dominios Web</div>
+                <div style="font-size: 0.72rem; color: var(--text-muted);">29 Ago 2026 • Tarjeta de Crédito</div>
+              </div>
+            </div>
+            <span style="font-weight: 700; color: var(--danger); font-size: 0.9rem;">-$250.00</span>
+          </div>
         </div>
       </section>
     </main>
 
-    <!-- Bottom Navigation Bar (8 Ítems) -->
+    <!-- Navigation Bar -->
     <nav class="bottom-nav">
       <button class="nav-item active" onclick="switchTab('habitos', this)">
         <i data-lucide="check-square" size="18"></i> Hábitos
@@ -745,21 +892,14 @@
       }
     }
 
-    function switchMetasView(view, btn) {
-      const parent = btn.parentElement;
-      parent.querySelectorAll('.segment-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-    }
-
-    // Chart 1: Hábitos Semanal
+    // Chart 1: Hábitos
     const ctxHabits = document.getElementById('habitsChart').getContext('2d');
     new Chart(ctxHabits, {
       type: 'line',
       data: {
         labels: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'],
         datasets: [{
-          label: '% Cumplimiento',
-          data: [80, 100, 70, 90, 85, 100, 88],
+          data: [85, 100, 75, 90, 88, 100, 92],
           borderColor: '#ff6b00',
           backgroundColor: 'rgba(255, 107, 0, 0.15)',
           fill: true,
@@ -776,15 +916,14 @@
       }
     });
 
-    // Chart 2: Evolución Mensual
+    // Chart 2: Evolución
     const ctxEvolution = document.getElementById('evolutionChart').getContext('2d');
     new Chart(ctxEvolution, {
       type: 'line',
       data: {
-        labels: ['Ene', 'Feb', 'Mar', 'Abr'],
+        labels: ['Jun', 'Jul', 'Ago', 'Sep'],
         datasets: [{
-          label: 'Cumplimiento Promedio',
-          data: [65, 78, 82, 88.7],
+          data: [70, 78, 84, 88],
           borderColor: '#22c55e',
           backgroundColor: 'rgba(34, 197, 94, 0.15)',
           fill: true,
@@ -800,23 +939,21 @@
       }
     });
 
-    // Chart 3: Distribución del Tiempo
+    // Chart 3: Distribución
     const ctxDistribution = document.getElementById('distributionChart').getContext('2d');
     new Chart(ctxDistribution, {
       type: 'doughnut',
       data: {
-        labels: ['Trabajo / Código', 'Ejercicio', 'Lectura / Estudio', 'Meditación'],
+        labels: ['Programación PHP/JS', 'Entrenamiento Físico', 'Estudio & Lectura', 'Tenis de Mesa'],
         datasets: [{
-          data: [45, 20, 20, 15],
+          data: [50, 20, 18, 12],
           backgroundColor: ['#3b82f6', '#ff6b00', '#a855f7', '#22c55e'],
           borderWidth: 2,
           borderColor: '#18181b'
         }]
       },
       options: {
-        plugins: {
-          legend: { position: 'bottom', labels: { color: '#a1a1aa', font: { size: 10 } } }
-        },
+        plugins: { legend: { position: 'bottom', labels: { color: '#a1a1aa', font: { size: 10 } } } },
         cutout: '65%'
       }
     });
@@ -828,8 +965,7 @@
       data: {
         labels: ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4'],
         datasets: [{
-          label: 'Peso Máximo (kg)',
-          data: [72.5, 75, 77.5, 80],
+          data: [75, 77.5, 77.5, 80],
           borderColor: '#ff6b00',
           backgroundColor: 'rgba(255, 107, 0, 0.15)',
           fill: true,
@@ -851,9 +987,9 @@
     new Chart(ctxWheel, {
       type: 'radar',
       data: {
-        labels: ['Salud', 'Familia', 'Trabajo', 'Ocio', 'Tiempo Mí', 'Emocional', 'Ética'],
+        labels: ['Salud/Físico', 'Desarrollo', 'Finanzas', 'Relaciones', 'Ocio/Tenis', 'Emocional'],
         datasets: [{
-          data: [10, 8, 5, 6, 8, 7, 9],
+          data: [9.5, 8.5, 8.0, 7.5, 8.0, 8.5],
           backgroundColor: 'rgba(255, 107, 0, 0.25)',
           borderColor: '#ff6b00',
           pointBackgroundColor: '#ff6b00'
@@ -870,42 +1006,78 @@
     new Chart(ctxFinance, {
       type: 'bar',
       data: {
-        labels: ['Ene', 'Feb', 'Mar', 'Abr'],
+        labels: ['Jul', 'Ago', 'Sep'],
         datasets: [
-          { label: 'Ingresos', data: [2000, 2200, 2100, 2400], backgroundColor: '#22c55e', borderRadius: 4 },
-          { label: 'Egresos', data: [1200, 1500, 1100, 1300], backgroundColor: '#ff6b00', borderRadius: 4 }
+          { label: 'Ingresos ($)', data: [2600, 2700, 2800], backgroundColor: '#22c55e', borderRadius: 4 },
+          { label: 'Egresos ($)', data: [1500, 1580, 1650], backgroundColor: '#ef4444', borderRadius: 4 }
         ]
       },
       options: {
         plugins: { legend: { labels: { color: '#a1a1aa', font: { size: 10 } } } },
-        scales: { x: { grid: { display: false } }, y: { grid: { color: '#27272a' } } }
+        scales: { x: { grid: { display: false }, ticks: { color: '#a1a1aa' } }, y: { grid: { color: '#27272a' }, ticks: { color: '#a1a1aa' } } }
       }
     });
 
-    // Temporizador Logic
+    // Lógica del Temporizador (Enfoque)
     let timerInterval = null;
-    let secondsLeft = 1500;
-    
+    let totalSeconds = 1500;
+    let remainingSeconds = 1500;
+
+    function setTimerMode(minutes, btn) {
+      const parent = btn.parentElement;
+      parent.querySelectorAll('.segment-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      totalSeconds = minutes * 60;
+      remainingSeconds = totalSeconds;
+      
+      if (minutes === 25) {
+        document.getElementById('timer-status').innerText = 'ENFOQUE ACTIVO';
+      } else {
+        document.getElementById('timer-status').innerText = 'DESCANSO';
+      }
+
+      updateTimerDisplay();
+      if (timerInterval) toggleTimer(); // Detener si estaba en ejecución
+    }
+
+    function updateTimerDisplay() {
+      let m = Math.floor(remainingSeconds / 60).toString().padStart(2, '0');
+      let s = (remainingSeconds % 60).toString().padStart(2, '0');
+      document.getElementById('timer').innerText = `${m}:${s}`;
+    }
+
     function toggleTimer() {
+      const btn = document.getElementById('btn-start');
       if (timerInterval) {
         clearInterval(timerInterval);
         timerInterval = null;
+        btn.innerHTML = '<i data-lucide="play" size="16" style="vertical-align: middle;"></i> Reanudar';
       } else {
+        btn.innerHTML = '<i data-lucide="pause" size="16" style="vertical-align: middle;"></i> Pausar';
         timerInterval = setInterval(() => {
-          secondsLeft--;
-          let m = Math.floor(secondsLeft / 60).toString().padStart(2, '0');
-          let s = (secondsLeft % 60).toString().padStart(2, '0');
-          document.getElementById('timer').innerText = `${m}:${s}`;
-          if (secondsLeft <= 0) clearInterval(timerInterval);
+          remainingSeconds--;
+          updateTimerDisplay();
+          if (remainingSeconds <= 0) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            btn.innerHTML = '<i data-lucide="play" size="16" style="vertical-align: middle;"></i> Iniciar';
+            alert('¡Tiempo completado!');
+          }
         }, 1000);
       }
+      lucide.createIcons();
     }
 
     function resetTimer() {
-      clearInterval(timerInterval);
-      timerInterval = null;
-      secondsLeft = 1500;
-      document.getElementById('timer').innerText = "25:00";
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+      remainingSeconds = totalSeconds;
+      updateTimerDisplay();
+      document.getElementById('btn-start').innerHTML = '<i data-lucide="play" size="16" style="vertical-align: middle;"></i> Iniciar';
+      lucide.createIcons();
     }
   </script>
 </body>
