@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>FORJA Mobile Mockup</title>
+  <title>FORJA - Hábitos y Dashboard</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
@@ -34,20 +34,18 @@
       min-height: 100vh;
     }
 
-    /* Mobile Container Frame */
     .app-container {
       width: 100%;
-      max-width: 430px; /* Tamaño iPhone Pro Max */
+      max-width: 430px;
       background-color: var(--bg);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       position: relative;
-      padding-bottom: 75px; /* Espacio para menú inferior */
+      padding-bottom: 75px;
       box-shadow: 0 0 30px rgba(0,0,0,0.8);
     }
 
-    /* Header Superior */
     header {
       padding: 18px 20px 10px;
       display: flex;
@@ -69,7 +67,6 @@
       letter-spacing: 1px;
     }
 
-    /* Main Content Area */
     main {
       padding: 10px 16px;
       flex: 1;
@@ -83,7 +80,6 @@
       display: block;
     }
 
-    /* Headers de pantalla */
     .screen-title {
       font-size: 1.4rem;
       font-weight: 700;
@@ -99,7 +95,6 @@
       margin-bottom: 16px;
     }
 
-    /* Cards */
     .card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
@@ -118,7 +113,6 @@
       align-items: center;
     }
 
-    /* Tabs Internos */
     .segmented-control {
       display: flex;
       background-color: #27272a;
@@ -144,7 +138,6 @@
       color: white;
     }
 
-    /* Grid Métricas Cortas */
     .metrics-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -160,7 +153,7 @@
     }
 
     .metric-val {
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       font-weight: 700;
       color: var(--primary);
       margin-top: 4px;
@@ -171,7 +164,6 @@
       color: var(--text-muted);
     }
 
-    /* Listas con Checkboxes e Iconos */
     .list-item {
       display: flex;
       align-items: center;
@@ -191,23 +183,89 @@
       font-size: 0.9rem;
     }
 
-    .checkbox {
-      width: 20px;
-      height: 20px;
+    /* Grid de Hábitos Matutinos */
+    .habits-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .habit-tile {
+      background: #222226;
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .habit-tile.done {
+      border-color: var(--primary);
+      background: var(--primary-light);
+    }
+
+    .habit-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .habit-time {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* Calendario de Checkboxes semanal */
+    .week-tracker {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      text-align: center;
+    }
+
+    .day-col {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+    }
+
+    .check-box-square {
+      width: 100%;
+      aspect-ratio: 1;
+      background: #27272a;
       border-radius: 6px;
-      border: 2px solid var(--card-border);
+      margin-top: 4px;
       display: flex;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
     }
 
-    .checkbox.checked {
-      background-color: var(--success);
-      border-color: var(--success);
+    .check-box-square.active {
+      background: var(--success);
+      color: white;
     }
 
-    /* Barra de Progreso */
+    /* Heatmap / Grid mensual */
+    .heatmap-grid {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 4px;
+      margin-top: 8px;
+    }
+
+    .heat-square {
+      width: 100%;
+      aspect-ratio: 1;
+      background: #27272a;
+      border-radius: 3px;
+    }
+
+    .heat-square.lvl-1 { background: rgba(34, 197, 94, 0.3); }
+    .heat-square.lvl-2 { background: rgba(34, 197, 94, 0.6); }
+    .heat-square.lvl-3 { background: rgba(34, 197, 94, 1); }
+
     .progress-bar-bg {
       height: 8px;
       background-color: #27272a;
@@ -222,7 +280,6 @@
       border-radius: 4px;
     }
 
-    /* Temporizador Visual */
     .timer-circle {
       width: 180px;
       height: 180px;
@@ -238,7 +295,6 @@
       color: var(--text);
     }
 
-    /* Bottom Navigation Bar */
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -270,7 +326,6 @@
       color: var(--primary);
     }
 
-    /* Badges */
     .badge {
       font-size: 0.75rem;
       padding: 2px 8px;
@@ -290,7 +345,98 @@
     </header>
 
     <main>
-      <section id="metas" class="section active">
+      <!-- SECCIÓN HÁBITOS (NUEVA / PRINCIPAL) -->
+      <section id="habitos" class="section active">
+        <div class="screen-title"><i data-lucide="check-square" color="#ff6b00"></i> Hábitos Diarios</div>
+        <div class="screen-subtitle">Controlá tu disciplina día a día.</div>
+
+        <!-- Banner Racha -->
+        <div class="card" style="background: linear-gradient(135deg, #18181b, #27272a);">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <span style="font-size: 0.8rem; color: var(--text-muted);">Racha Actual</span>
+              <div style="font-size: 1.5rem; font-weight: 800; color: var(--primary);">🔥 12 DÍAS</div>
+            </div>
+            <div style="text-align: right;">
+              <span style="font-size: 0.8rem; color: var(--text-muted);">Completado Hoy</span>
+              <div style="font-size: 1.5rem; font-weight: 800; color: var(--success);">88%</div>
+            </div>
+          </div>
+          <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 88%;"></div></div>
+        </div>
+
+        <!-- Registro Semanal -->
+        <div class="card">
+          <div class="card-title">Abril 2026</div>
+          <div class="week-tracker">
+            <div class="day-col">LUN<br>14<div class="check-box-square active"><i data-lucide="check" size="12"></i></div></div>
+            <div class="day-col">MAR<br>15<div class="check-box-square active"><i data-lucide="check" size="12"></i></div></div>
+            <div class="day-col">MIÉ<br>16<div class="check-box-square active"><i data-lucide="check" size="12"></i></div></div>
+            <div class="day-col">JUE<br>17<div class="check-box-square active"><i data-lucide="check" size="12"></i></div></div>
+            <div class="day-col">VIE<br>18<div class="check-box-square active"><i data-lucide="check" size="12"></i></div></div>
+            <div class="day-col">SÁB<br>19<div class="check-box-square active"><i data-lucide="check" size="12"></i></div></div>
+            <div class="day-col">DOM<br>20<div class="check-box-square"><i data-lucide="check" size="12"></i></div></div>
+          </div>
+        </div>
+
+        <!-- Ritual Matutino -->
+        <div class="card">
+          <div class="card-title">Ritual Matutino</div>
+          <div class="habits-grid">
+            <div class="habit-tile done" onclick="this.classList.toggle('done')">
+              <div class="habit-header"><i data-lucide="sun" size="16" color="#ff6b00"></i> Meditación</div>
+              <div class="habit-time">10 min</div>
+            </div>
+            <div class="habit-tile done" onclick="this.classList.toggle('done')">
+              <div class="habit-header"><i data-lucide="shower-head" size="16" color="#3b82f6"></i> Ducha Fría</div>
+              <div class="habit-time">5 min</div>
+            </div>
+            <div class="habit-tile done" onclick="this.classList.toggle('done')">
+              <div class="habit-header"><i data-lucide="apple" size="16" color="#22c55e"></i> Desayuno</div>
+              <div class="habit-time">Saludable</div>
+            </div>
+            <div class="habit-tile" onclick="this.classList.toggle('done')">
+              <div class="habit-header"><i data-lucide="book-open" size="16" color="#ff6b00"></i> Lectura</div>
+              <div class="habit-time">15 min</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Métricas Rápidas -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-lbl">Horas Dormidas</div>
+            <div class="metric-val">7.5 h</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-lbl">Min. Meditación</div>
+            <div class="metric-val">60 min</div>
+          </div>
+        </div>
+
+        <!-- Gráfico Semanal / Resumen -->
+        <div class="card">
+          <div class="card-title">Progreso Semanal de Hábitos</div>
+          <canvas id="habitsChart" style="max-height: 180px;"></canvas>
+        </div>
+
+        <!-- Heatmap Mensual -->
+        <div class="card">
+          <div class="card-title">Constancia del Mes <span class="badge">8 Días Perfectos</span></div>
+          <div class="heatmap-grid">
+            <div class="heat-square lvl-3"></div><div class="heat-square lvl-3"></div><div class="heat-square lvl-2"></div>
+            <div class="heat-square lvl-3"></div><div class="heat-square lvl-1"></div><div class="heat-square lvl-2"></div>
+            <div class="heat-square lvl-3"></div><div class="heat-square lvl-3"></div><div class="heat-square lvl-2"></div>
+            <div class="heat-square lvl-3"></div><div class="heat-square lvl-1"></div><div class="heat-square lvl-2"></div>
+            <div class="heat-square lvl-3"></div><div class="heat-square lvl-3"></div><div class="heat-square lvl-3"></div>
+            <div class="heat-square lvl-2"></div><div class="heat-square lvl-1"></div><div class="heat-square lvl-3"></div>
+            <div class="heat-square"></div><div class="heat-square"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- OBJETIVOS Y METAS -->
+      <section id="metas" class="section">
         <div class="screen-title"><i data-lucide="target" color="#ff6b00"></i> Objetivos y Metas</div>
         <div class="screen-subtitle">Definí tus objetivos y alcanzá metas clave.</div>
 
@@ -318,13 +464,10 @@
             <div class="item-left"><i data-lucide="smile" size="18" color="#ff6b00"></i> Meditar 30m al día</div>
             <i data-lucide="chevron-right" size="16" color="#666"></i>
           </div>
-          <div class="list-item">
-            <div class="item-left"><i data-lucide="mountain" size="18" color="#ff6b00"></i> Viaje a la montaña</div>
-            <i data-lucide="chevron-right" size="16" color="#666"></i>
-          </div>
         </div>
       </section>
 
+      <!-- MEMENTO MORI -->
       <section id="memento" class="section">
         <div class="screen-title"><i data-lucide="hourglass" color="#ff6b00"></i> Memento Mori</div>
         <div class="screen-subtitle">Recordá lo que realmente importa.</div>
@@ -339,20 +482,9 @@
           <p style="font-style: italic; font-size: 0.95rem; line-height: 1.4;">"No es que tengamos poco tiempo, es que perdemos mucho."</p>
           <p style="margin-top: 8px; font-size: 0.8rem; color: var(--primary); font-weight: bold;">— Séneca</p>
         </div>
-
-        <div class="card">
-          <div class="card-title">Reflexión del Día</div>
-          <div class="list-item">
-            <span style="font-size:0.85rem;">¿Cómo puedo aprovechar mejor el día?</span>
-            <i data-lucide="chevron-right" size="16" color="#666"></i>
-          </div>
-          <div class="list-item">
-            <span style="font-size:0.85rem;">¿Qué harías si solo te quedara 1 año?</span>
-            <i data-lucide="chevron-right" size="16" color="#666"></i>
-          </div>
-        </div>
       </section>
 
+      <!-- RUEDA DE LA VIDA -->
       <section id="rueda" class="section">
         <div class="screen-title"><i data-lucide="pie-chart" color="#ff6b00"></i> Rueda de la Vida</div>
         <div class="screen-subtitle">Evaluá tu equilibrio integral.</div>
@@ -360,93 +492,20 @@
         <div class="card">
           <canvas id="wheelChart" style="max-height: 260px;"></canvas>
         </div>
-
-        <div class="metrics-grid">
-          <div class="metric-card">
-            <div class="metric-lbl">Equilibrio General</div>
-            <div class="metric-val">7.2 pts</div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-lbl">Racha Salud</div>
-            <div class="metric-val">15 Días</div>
-          </div>
-        </div>
       </section>
 
+      <!-- TEMPORIZADOR -->
       <section id="enfoque" class="section">
         <div class="screen-title"><i data-lucide="timer" color="#ff6b00"></i> Temporizador FORJA</div>
         <div class="screen-subtitle">Enfocate profundamente en lo importante.</div>
 
-        <div class="segmented-control">
-          <button class="segment-btn active">Enfoque</button>
-          <button class="segment-btn">D. Corto</button>
-          <button class="segment-btn">D. Largo</button>
-        </div>
-
         <div class="card" style="text-align: center;">
           <div class="timer-circle" id="timer">25:00</div>
-          <button style="background: var(--primary); color: white; border: none; padding: 12px 30px; border-radius: 25px; font-weight: bold; font-size: 1rem; cursor: pointer;" onclick="toggleTimer()">
-            INICIAR SESIÓN
-          </button>
-        </div>
-
-        <div class="metrics-grid">
-          <div class="metric-card">
-            <div class="metric-lbl">Sesiones Completadas</div>
-            <div class="metric-val">18</div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-lbl">Focos Hoy</div>
-            <div class="metric-val">3</div>
-          </div>
+          <button style="background: var(--primary); color: white; border: none; padding: 12px 30px; border-radius: 25px; font-weight: bold; cursor: pointer;" onclick="toggleTimer()">INICIAR SESIÓN</button>
         </div>
       </section>
 
-      <section id="suenos" class="section">
-        <div class="screen-title"><div style="display:flex; gap:8px;"><i data-lucide="moon" color="#ff6b00"></i> Sueños por Cumplir</div></div>
-        <div class="screen-subtitle">Proyectá tu futuro a largo plazo.</div>
-
-        <div class="card">
-          <div class="card-title">Grandes Sueños</div>
-          <div class="list-item">
-            <div class="item-left"><i data-lucide="plane" size="16" color="#ff6b00"></i> Viajar por el mundo</div>
-            <span class="badge">En progreso</span>
-          </div>
-          <div class="list-item">
-            <div class="item-left"><i data-lucide="home" size="16" color="#ff6b00"></i> Construir casa propia</div>
-            <span class="badge">Pendiente</span>
-          </div>
-          <div class="list-item">
-            <div class="item-left"><i data-lucide="book-open" size="16" color="#ff6b00"></i> Escribir un libro</div>
-            <span class="badge">Pendiente</span>
-          </div>
-        </div>
-      </section>
-
-      <section id="entrenamiento" class="section">
-        <div class="screen-title"><i data-lucide="dumbbell" color="#ff6b00"></i> Entrenamiento FORJA</div>
-        <div class="screen-subtitle">Programa intensivo de 8 semanas.</div>
-
-        <div class="metrics-grid">
-          <div class="metric-card">
-            <div class="metric-lbl">Calorías Quemadas</div>
-            <div class="metric-val">4,520 kcal</div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-lbl">Streak Actual</div>
-            <div class="metric-val">12 Días</div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Rutina Semanal</div>
-          <div class="list-item"><div class="item-left"><span style="color:var(--primary); font-weight:bold;">Lun</span> Pecho + Tríceps</div><i data-lucide="check-circle-2" size="18" color="#22c55e"></i></div>
-          <div class="list-item"><div class="item-left"><span style="color:var(--primary); font-weight:bold;">Mar</span> Espalda</div><i data-lucide="check-circle-2" size="18" color="#22c55e"></i></div>
-          <div class="list-item"><div class="item-left"><span style="color:var(--primary); font-weight:bold;">Mié</span> Piernas</div><i data-lucide="circle" size="18" color="#444"></i></div>
-          <div class="list-item"><div class="item-left"><span style="color:var(--primary); font-weight:bold;">Jue</span> Cardio HIIT</div><i data-lucide="circle" size="18" color="#444"></i></div>
-        </div>
-      </section>
-
+      <!-- FINANZAS -->
       <section id="finanzas" class="section">
         <div class="screen-title"><i data-lucide="wallet" color="#ff6b00"></i> Finanzas Personales</div>
         <div class="screen-subtitle">Control de egresos y balance mensual.</div>
@@ -455,24 +514,15 @@
           <div class="card-title">Balance de Flujo de Caja</div>
           <canvas id="financeChart" style="max-height: 180px;"></canvas>
         </div>
-
-        <div class="card">
-          <div class="card-title">Gastos Recurrentes</div>
-          <div class="list-item">
-            <div class="item-left"><i data-lucide="home" size="16" color="#a1a1aa"></i> Alquiler y expensas</div>
-            <strong style="font-size:0.9rem;">$ 500</strong>
-          </div>
-          <div class="list-item">
-            <div class="item-left"><i data-lucide="zap" size="16" color="#a1a1aa"></i> Servicios básicos</div>
-            <strong style="font-size:0.9rem;">$ 120</strong>
-          </div>
-        </div>
       </section>
-
     </main>
 
+    <!-- Bottom Navigation Bar -->
     <nav class="bottom-nav">
-      <button class="nav-item active" onclick="switchTab('metas', this)">
+      <button class="nav-item active" onclick="switchTab('habitos', this)">
+        <i data-lucide="check-square" size="20"></i> Hábitos
+      </button>
+      <button class="nav-item" onclick="switchTab('metas', this)">
         <i data-lucide="target" size="20"></i> Metas
       </button>
       <button class="nav-item" onclick="switchTab('memento', this)">
@@ -484,12 +534,6 @@
       <button class="nav-item" onclick="switchTab('enfoque', this)">
         <i data-lucide="timer" size="20"></i> Enfoque
       </button>
-      <button class="nav-item" onclick="switchTab('suenos', this)">
-        <i data-lucide="moon" size="20"></i> Sueños
-      </button>
-      <button class="nav-item" onclick="switchTab('entrenamiento', this)">
-        <i data-lucide="dumbbell" size="20"></i> Fitness
-      </button>
       <button class="nav-item" onclick="switchTab('finanzas', this)">
         <i data-lucide="wallet" size="20"></i> Finanzas
       </button>
@@ -497,10 +541,8 @@
   </div>
 
   <script>
-    // Inicializar íconos
     lucide.createIcons();
 
-    // Lógica de cambio de pestañas desde la barra inferior
     function switchTab(sectionId, element) {
       document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
       document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
@@ -509,7 +551,31 @@
       element.classList.add('active');
     }
 
-    // Chart.js - Rueda de la Vida (Radar)
+    // Chart de Hábitos (Líneas)
+    const ctxHabits = document.getElementById('habitsChart').getContext('2d');
+    new Chart(ctxHabits, {
+      type: 'line',
+      data: {
+        labels: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'],
+        datasets: [{
+          label: '% Cumplimiento',
+          data: [80, 100, 70, 90, 85, 100, 88],
+          borderColor: '#ff6b00',
+          backgroundColor: 'rgba(255, 107, 0, 0.1)',
+          fill: true,
+          tension: 0.3
+        }]
+      },
+      options: {
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { grid: { display: false }, ticks: { color: '#a1a1aa' } },
+          y: { min: 0, max: 100, grid: { color: '#27272a' }, ticks: { color: '#a1a1aa' } }
+        }
+      }
+    });
+
+    // Chart de Rueda de la Vida
     const ctxWheel = document.getElementById('wheelChart').getContext('2d');
     new Chart(ctxWheel, {
       type: 'radar',
@@ -519,24 +585,16 @@
           data: [10, 8, 5, 6, 8, 7, 9],
           backgroundColor: 'rgba(255, 107, 0, 0.25)',
           borderColor: '#ff6b00',
-          pointBackgroundColor: '#ff6b00',
-          pointRadius: 3
+          pointBackgroundColor: '#ff6b00'
         }]
       },
       options: {
         plugins: { legend: { display: false } },
-        scales: {
-          r: {
-            angleLines: { color: '#27272a' },
-            grid: { color: '#27272a' },
-            pointLabels: { color: '#a1a1aa', font: { size: 10 } },
-            ticks: { display: false }
-          }
-        }
+        scales: { r: { angleLines: { color: '#27272a' }, grid: { color: '#27272a' }, ticks: { display: false } } }
       }
     });
 
-    // Chart.js - Finanzas (Barras)
+    // Chart Finanzas
     const ctxFinance = document.getElementById('financeChart').getContext('2d');
     new Chart(ctxFinance, {
       type: 'bar',
@@ -549,10 +607,7 @@
       },
       options: {
         plugins: { legend: { labels: { color: '#a1a1aa', font: { size: 10 } } } },
-        scales: {
-          x: { grid: { display: false }, ticks: { color: '#a1a1aa' } },
-          y: { grid: { color: '#27272a' }, ticks: { color: '#a1a1aa' } }
-        }
+        scales: { x: { grid: { display: false } }, y: { grid: { color: '#27272a' } } }
       }
     });
 
