@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>FORJA - Hábitos y Dashboard</title>
+  <title>FORJA - Sistema de Gestión Personal</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
@@ -16,6 +16,8 @@
       --text: #f4f4f5;
       --text-muted: #a1a1aa;
       --success: #22c55e;
+      --accent-blue: #3b82f6;
+      --accent-purple: #a855f7;
     }
 
     * {
@@ -55,6 +57,7 @@
       position: sticky;
       top: 0;
       z-index: 10;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
     }
 
     .brand {
@@ -68,7 +71,7 @@
     }
 
     main {
-      padding: 10px 16px;
+      padding: 12px 16px;
       flex: 1;
     }
 
@@ -131,6 +134,7 @@
       font-weight: 600;
       border-radius: 8px;
       cursor: pointer;
+      transition: all 0.2s;
     }
 
     .segment-btn.active {
@@ -153,7 +157,7 @@
     }
 
     .metric-val {
-      font-size: 1.2rem;
+      font-size: 1.25rem;
       font-weight: 700;
       color: var(--primary);
       margin-top: 4px;
@@ -168,7 +172,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 10px 0;
+      padding: 12px 0;
       border-bottom: 1px solid rgba(255,255,255,0.05);
     }
 
@@ -179,7 +183,7 @@
     .item-left {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       font-size: 0.9rem;
     }
 
@@ -334,6 +338,45 @@
       color: var(--primary);
       font-weight: 600;
     }
+
+    .streak-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(255, 107, 0, 0.2);
+      color: var(--primary);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .quote-box {
+      border-left: 3px solid var(--primary);
+      padding-left: 12px;
+      margin: 12px 0;
+    }
+
+    .accordion-item {
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      padding: 10px 0;
+    }
+
+    .accordion-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .accordion-content {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+      line-height: 1.4;
+    }
   </style>
 </head>
 <body>
@@ -345,7 +388,7 @@
     </header>
 
     <main>
-      <!-- SECCIÓN HÁBITOS (NUEVA / PRINCIPAL) -->
+      <!-- 1. SECCIÓN HÁBITOS -->
       <section id="habitos" class="section active">
         <div class="screen-title"><i data-lucide="check-square" color="#ff6b00"></i> Hábitos Diarios</div>
         <div class="screen-subtitle">Controlá tu disciplina día a día.</div>
@@ -435,84 +478,319 @@
         </div>
       </section>
 
-      <!-- OBJETIVOS Y METAS -->
+      <!-- 2. SECCIÓN MEMENTO MORI (CON SELECTOR PERSONAL Y PROFESIONAL) -->
+      <section id="memento" class="section">
+        <div class="screen-title"><i data-lucide="hourglass" color="#ff6b00"></i> Memento Mori</div>
+        <div class="screen-subtitle">Recordá lo que realmente importa y viví con propósito.</div>
+
+        <!-- Selector Personal / Profesional -->
+        <div class="segmented-control">
+          <button class="segment-btn active" onclick="switchMementoView('personal', this)">Personal</button>
+          <button class="segment-btn" onclick="switchMementoView('profesional', this)">Profesional</button>
+        </div>
+
+        <!-- VISTA PERSONAL DE MEMENTO MORI -->
+        <div id="memento-personal">
+          <!-- Contador Semanas Vividas -->
+          <div class="card">
+            <div class="card-title">Semanas Vividas (Expectativa 80 Años)</div>
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-top: 4px;">
+              <span style="font-size: 1.4rem; font-weight: 800; color: var(--primary);">1,780 <span style="font-size: 0.9rem; color: var(--text-muted); font-weight: 400;">de 4,160</span></span>
+              <span style="font-size: 1.1rem; font-weight: 700; color: var(--text);">43%</span>
+            </div>
+            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 43%;"></div></div>
+          </div>
+
+          <!-- Cita Estoica -->
+          <div class="card">
+            <div class="quote-box">
+              <p style="font-style: italic; font-size: 0.9rem; line-height: 1.4; color: #e4e4e7;">"No es que tengamos poco tiempo, es que perdemos mucho."</p>
+              <p style="margin-top: 6px; font-size: 0.8rem; color: var(--primary); font-weight: bold;">— Séneca</p>
+            </div>
+          </div>
+
+          <!-- Reflexión del Día -->
+          <div class="card">
+            <div class="card-title"><i data-lucide="check-circle-2" size="16" color="#22c55e"></i> Reflexión del Día</div>
+            <div class="accordion-item">
+              <div class="accordion-header">
+                <span><i data-lucide="compass" size="16" color="#ff6b00"></i> ¿Cómo puedo aprovechar mejor el día de hoy?</span>
+                <i data-lucide="chevron-right" size="16" color="#666"></i>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <div class="accordion-header">
+                <span><i data-lucide="trophy" size="16" color="#ff6b00"></i> ¿Qué harías si solo te quedara un año de vida?</span>
+                <i data-lucide="chevron-right" size="16" color="#666"></i>
+              </div>
+            </div>
+            <button style="width: 100%; margin-top: 10px; background: transparent; border: 1px dashed var(--card-border); color: var(--primary); padding: 10px; border-radius: 10px; font-size: 0.85rem; font-weight: 600; cursor: pointer;">+ Nueva Meta</button>
+          </div>
+
+          <!-- Mis Sueños Personales -->
+          <div class="card">
+            <div class="card-title">Mis Sueños Personales</div>
+            <div class="list-item">
+              <div class="item-left"><i data-lucide="zap" size="18" color="#ff6b00"></i> Mejorar mi Salud y Energía</div>
+              <i data-lucide="chevron-right" size="16" color="#666"></i>
+            </div>
+            <div class="list-item">
+              <div class="item-left"><i data-lucide="heart" size="18" color="#ff6b00"></i> Crear una familia sólida</div>
+              <i data-lucide="chevron-right" size="16" color="#666"></i>
+            </div>
+            <div class="list-item">
+              <div class="item-left"><i data-lucide="globe" size="18" color="#ff6b00"></i> Viajar por Japón y el sudeste asiático</div>
+              <i data-lucide="chevron-right" size="16" color="#666"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- VISTA PROFESIONAL DE MEMENTO MORI -->
+        <div id="memento-profesional" style="display: none;">
+          <!-- Progreso de Carrera -->
+          <div class="card">
+            <div class="card-title">Semanas de Carrera (40 Años Laborales)</div>
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-top: 4px;">
+              <span style="font-size: 1.4rem; font-weight: 800; color: var(--accent-blue);">520 <span style="font-size: 0.9rem; color: var(--text-muted); font-weight: 400;">de 2,080</span></span>
+              <span style="font-size: 1.1rem; font-weight: 700; color: var(--text);">25%</span>
+            </div>
+            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 25%; background: linear-gradient(90deg, #3b82f6, #60a5fa);"></div></div>
+          </div>
+
+          <!-- Cita Profesional -->
+          <div class="card">
+            <div class="quote-box" style="border-color: var(--accent-blue);">
+              <p style="font-style: italic; font-size: 0.9rem; line-height: 1.4; color: #e4e4e7;">"Tu trabajo va a llenar una gran parte de tu vida, y la única forma de estar realmente satisfecho es hacer lo que crees que es un gran trabajo."</p>
+              <p style="margin-top: 6px; font-size: 0.8rem; color: var(--accent-blue); font-weight: bold;">— Steve Jobs</p>
+            </div>
+          </div>
+
+          <!-- Preguntas Estratégicas -->
+          <div class="card">
+            <div class="card-title"><i data-lucide="briefcase" size="16" color="#3b82f6"></i> Enfoque de Carrera</div>
+            <div class="accordion-item">
+              <div class="accordion-header">
+                <span><i data-lucide="target" size="16" color="#3b82f6"></i> ¿Qué habilidad clave debo dominar este año?</span>
+                <i data-lucide="chevron-right" size="16" color="#666"></i>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <div class="accordion-header">
+                <span><i data-lucide="rocket" size="16" color="#3b82f6"></i> ¿Qué proyecto dejaría un verdadero impacto?</span>
+                <i data-lucide="chevron-right" size="16" color="#666"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hitos Profesionales -->
+          <div class="card">
+            <div class="card-title">Hitos de Impacto</div>
+            <div class="list-item">
+              <div class="item-left"><i data-lucide="code" size="18" color="#3b82f6"></i> Liderar el desarrollo de software principal</div>
+              <i data-lucide="chevron-right" size="16" color="#666"></i>
+            </div>
+            <div class="list-item">
+              <div class="item-left"><i data-lucide="trending-up" size="18" color="#3b82f6"></i> Construir unidad de negocio con facturación propia</div>
+              <i data-lucide="chevron-right" size="16" color="#666"></i>
+            </div>
+            <div class="list-item">
+              <div class="item-left"><i data-lucide="award" size="18" color="#3b82f6"></i> Mentorizar a 5 desarrolladores juniors</div>
+              <i data-lucide="chevron-right" size="16" color="#666"></i>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. SECCIÓN ESTADÍSTICAS Y RACHAS -->
+      <section id="estadisticas" class="section">
+        <div class="screen-title"><i data-lucide="bar-chart-3" color="#ff6b00"></i> Estadísticas y Rachas</div>
+        <div class="screen-subtitle">Análisis de rendimiento, consistencia y evolución.</div>
+
+        <!-- Métrica Destacada de Rachas -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-lbl">Racha Actual</div>
+            <div class="metric-val" style="color: var(--primary);">🔥 12 Días</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-lbl">Racha Máxima</div>
+            <div class="metric-val" style="color: var(--success);">🏆 34 Días</div>
+          </div>
+        </div>
+
+        <!-- Evolución Mensual de Consistencia -->
+        <div class="card">
+          <div class="card-title">Evolución de Consistencia (4 Meses)</div>
+          <canvas id="evolutionChart" style="max-height: 180px;"></canvas>
+        </div>
+
+        <!-- Distribución del Tiempo por Categoría -->
+        <div class="card">
+          <div class="card-title">Distribución del Tiempo Semanal</div>
+          <canvas id="distributionChart" style="max-height: 200px;"></canvas>
+        </div>
+
+        <!-- Desglose de Rendimiento -->
+        <div class="card">
+          <div class="card-title">Resumen de Métricas Clave</div>
+          <div class="list-item">
+            <div class="item-left"><i data-lucide="check-circle" size="18" color="#22c55e"></i> Hábitos Completados</div>
+            <span style="font-weight: bold; font-size: 0.9rem;">142 / 160</span>
+          </div>
+          <div class="list-item">
+            <div class="item-left"><i data-lucide="clock" size="18" color="#3b82f6"></i> Horas Enfoque Pomodoro</div>
+            <span style="font-weight: bold; font-size: 0.9rem;">38.5 hrs</span>
+          </div>
+          <div class="list-item">
+            <div class="item-left"><i data-lucide="flame" size="18" color="#ff6b00"></i> Tasa de Éxito Global</div>
+            <span style="font-weight: bold; font-size: 0.9rem; color: var(--primary);">88.7%</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. SECCIÓN OBJETIVOS Y METAS -->
       <section id="metas" class="section">
         <div class="screen-title"><i data-lucide="target" color="#ff6b00"></i> Objetivos y Metas</div>
         <div class="screen-subtitle">Definí tus objetivos y alcanzá metas clave.</div>
 
         <div class="segmented-control">
-          <button class="segment-btn">Personal</button>
-          <button class="segment-btn active">Profesional</button>
+          <button class="segment-btn active" onclick="switchMetasView('personal', this)">Personal</button>
+          <button class="segment-btn" onclick="switchMetasView('profesional', this)">Profesional</button>
         </div>
 
         <div class="card">
-          <div class="card-title">Resumen Anual <span class="badge">60%</span></div>
+          <div class="card-title">Resumen Anual 2026 <span class="badge">60%</span></div>
           <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 60%;"></div></div>
           <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); margin-top: 6px;">
-            <span>✔️ 12 Completadas</span>
-            <span>🏆 8 Restantes</span>
+            <span>✔️ 12 Metas Logradas</span>
+            <span>🏆 8 En Progreso</span>
           </div>
         </div>
 
         <div class="card">
-          <div class="card-title">1° Trimestre</div>
+          <div class="card-title">Primer Trimestre (Q1)</div>
           <div class="list-item">
-            <div class="item-left"><i data-lucide="book-open" size="18" color="#ff6b00"></i> Leer 20 Libros</div>
-            <i data-lucide="chevron-right" size="16" color="#666"></i>
+            <div class="item-left"><i data-lucide="book-open" size="18" color="#ff6b00"></i> Leer 20 Libros de Crecimiento</div>
+            <span style="font-size: 0.75rem; color: var(--primary); font-weight: bold;">14/20</span>
           </div>
           <div class="list-item">
-            <div class="item-left"><i data-lucide="smile" size="18" color="#ff6b00"></i> Meditar 30m al día</div>
-            <i data-lucide="chevron-right" size="16" color="#666"></i>
+            <div class="item-left"><i data-lucide="dumbbell" size="18" color="#ff6b00"></i> Completar Rutina de Fuerza 4x/sem</div>
+            <span style="font-size: 0.75rem; color: var(--success); font-weight: bold;">100%</span>
+          </div>
+          <div class="list-item">
+            <div class="item-left"><i data-lucide="heart-pulse" size="18" color="#ff6b00"></i> Chequeo Médico General</div>
+            <span style="font-size: 0.75rem; color: var(--success); font-weight: bold;">Listo</span>
           </div>
         </div>
-      </section>
-
-      <!-- MEMENTO MORI -->
-      <section id="memento" class="section">
-        <div class="screen-title"><i data-lucide="hourglass" color="#ff6b00"></i> Memento Mori</div>
-        <div class="screen-subtitle">Recordá lo que realmente importa.</div>
 
         <div class="card">
-          <div class="card-title">Semanas Vividas <span style="color:var(--primary)">1,780 / 4,160</span></div>
-          <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 43%;"></div></div>
-          <div style="text-align: right; font-size: 0.8rem; color: var(--text-muted);">43% consumido</div>
-        </div>
-
-        <div class="card" style="border-left: 3px solid var(--primary);">
-          <p style="font-style: italic; font-size: 0.95rem; line-height: 1.4;">"No es que tengamos poco tiempo, es que perdemos mucho."</p>
-          <p style="margin-top: 8px; font-size: 0.8rem; color: var(--primary); font-weight: bold;">— Séneca</p>
+          <div class="card-title">Segundo Trimestre (Q2)</div>
+          <div class="list-item">
+            <div class="item-left"><i data-lucide="mountain" size="18" color="#a1a1aa"></i> Escapada de Senderismo</div>
+            <span style="font-size: 0.75rem; color: var(--text-muted);">Pendiente</span>
+          </div>
+          <div class="list-item">
+            <div class="item-left"><i data-lucide="languages" size="18" color="#a1a1aa"></i> Practicar Conversación en Inglés</div>
+            <span style="font-size: 0.75rem; color: var(--primary);">45%</span>
+          </div>
         </div>
       </section>
 
-      <!-- RUEDA DE LA VIDA -->
+      <!-- 5. SECCIÓN RUEDA DE LA VIDA -->
       <section id="rueda" class="section">
         <div class="screen-title"><i data-lucide="pie-chart" color="#ff6b00"></i> Rueda de la Vida</div>
-        <div class="screen-subtitle">Evaluá tu equilibrio integral.</div>
+        <div class="screen-subtitle">Evaluá tu equilibrio integral y balance personal.</div>
 
         <div class="card">
           <canvas id="wheelChart" style="max-height: 260px;"></canvas>
         </div>
-      </section>
 
-      <!-- TEMPORIZADOR -->
-      <section id="enfoque" class="section">
-        <div class="screen-title"><i data-lucide="timer" color="#ff6b00"></i> Temporizador FORJA</div>
-        <div class="screen-subtitle">Enfocate profundamente en lo importante.</div>
-
-        <div class="card" style="text-align: center;">
-          <div class="timer-circle" id="timer">25:00</div>
-          <button style="background: var(--primary); color: white; border: none; padding: 12px 30px; border-radius: 25px; font-weight: bold; cursor: pointer;" onclick="toggleTimer()">INICIAR SESIÓN</button>
+        <div class="card">
+          <div class="card-title">Puntuación por Área</div>
+          <div class="list-item">
+            <div class="item-left"><i data-lucide="heart-pulse" size="18" color="#22c55e"></i> Salud y Estado Físico</div>
+            <span style="font-weight: bold; color: var(--success);">10 / 10</span>
+          </div>
+          <div class="list-item">
+            <div class="item-left"><i data-lucide="users" size="18" color="#3b82f6"></i> Familia y Relaciones</div>
+            <span style="font-weight: bold; color: var(--accent-blue);">8 / 10</span>
+          </div>
+          <div class="list-item">
+            <div class="item-left"><i data-lucide="briefcase" size="18" color="#ff6b00"></i> Carrera / Trabajo</div>
+            <span style="font-weight: bold; color: var(--primary);">5 / 10</span>
+          </div>
+          <div class="list-item">
+            <div class="item-left"><i data-lucide="smile" size="18" color="#a855f7"></i> Ocio y Recreación</div>
+            <span style="font-weight: bold; color: var(--accent-purple);">6 / 10</span>
+          </div>
         </div>
       </section>
 
-      <!-- FINANZAS -->
+      <!-- 6. SECCIÓN ENFOQUE / POMODORO -->
+      <section id="enfoque" class="section">
+        <div class="screen-title"><i data-lucide="timer" color="#ff6b00"></i> Temporizador FORJA</div>
+        <div class="screen-subtitle">Enfocate profundamente en tareas clave.</div>
+
+        <div class="card" style="text-align: center;">
+          <div class="timer-circle" id="timer">25:00</div>
+          <div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px;">
+            <button style="background: var(--primary); color: white; border: none; padding: 12px 24px; border-radius: 25px; font-weight: bold; cursor: pointer;" onclick="toggleTimer()">INICIAR</button>
+            <button style="background: #27272a; color: var(--text-muted); border: none; padding: 12px 20px; border-radius: 25px; font-weight: bold; cursor: pointer;" onclick="resetTimer()">REINICIAR</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Sesiones de Hoy</div>
+          <div class="list-item">
+            <div class="item-left"><i data-lucide="check-circle-2" size="18" color="#22c55e"></i> Sesión 1: Desarrollo Web</div>
+            <span style="font-size: 0.8rem; color: var(--text-muted);">25 min</span>
+          </div>
+          <div class="list-item">
+            <div class="item-left"><i data-lucide="check-circle-2" size="18" color="#22c55e"></i> Sesión 2: Lectura de Documentación</div>
+            <span style="font-size: 0.8rem; color: var(--text-muted);">25 min</span>
+          </div>
+          <div class="list-item">
+            <div class="item-left"><i data-lucide="play-circle" size="18" color="#ff6b00"></i> Sesión 3: Planificación Estratégica</div>
+            <span style="font-size: 0.8rem; color: var(--primary);">En curso</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7. SECCIÓN FINANZAS -->
       <section id="finanzas" class="section">
         <div class="screen-title"><i data-lucide="wallet" color="#ff6b00"></i> Finanzas Personales</div>
-        <div class="screen-subtitle">Control de egresos y balance mensual.</div>
+        <div class="screen-subtitle">Control de ingresos, gastos y presupuesto.</div>
+
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-lbl">Ingresos Mensuales</div>
+            <div class="metric-val" style="color: var(--success);">$2,400</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-lbl">Egresos Mensuales</div>
+            <div class="metric-val" style="color: var(--primary);">$1,300</div>
+          </div>
+        </div>
 
         <div class="card">
           <div class="card-title">Balance de Flujo de Caja</div>
           <canvas id="financeChart" style="max-height: 180px;"></canvas>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Gastos Recientes</div>
+          <div class="list-item">
+            <div class="item-left"><i data-lucide="shopping-bag" size="18" color="#ff6b00"></i> Supermercado</div>
+            <span style="font-weight: bold; font-size: 0.85rem;">-$120.00</span>
+          </div>
+          <div class="list-item">
+            <div class="item-left"><i data-lucide="zap" size="18" color="#ff6b00"></i> Servicios Públicos</div>
+            <span style="font-weight: bold; font-size: 0.85rem;">-$85.50</span>
+          </div>
+          <div class="list-item">
+            <div class="item-left"><i data-lucide="film" size="18" color="#ff6b00"></i> Suscripciones / Entretenimiento</div>
+            <span style="font-weight: bold; font-size: 0.85rem;">-$15.00</span>
+          </div>
         </div>
       </section>
     </main>
@@ -522,11 +800,14 @@
       <button class="nav-item active" onclick="switchTab('habitos', this)">
         <i data-lucide="check-square" size="20"></i> Hábitos
       </button>
-      <button class="nav-item" onclick="switchTab('metas', this)">
-        <i data-lucide="target" size="20"></i> Metas
-      </button>
       <button class="nav-item" onclick="switchTab('memento', this)">
         <i data-lucide="hourglass" size="20"></i> Memento
+      </button>
+      <button class="nav-item" onclick="switchTab('estadisticas', this)">
+        <i data-lucide="bar-chart-3" size="20"></i> Stats
+      </button>
+      <button class="nav-item" onclick="switchTab('metas', this)">
+        <i data-lucide="target" size="20"></i> Metas
       </button>
       <button class="nav-item" onclick="switchTab('rueda', this)">
         <i data-lucide="pie-chart" size="20"></i> Rueda
@@ -543,6 +824,7 @@
   <script>
     lucide.createIcons();
 
+    // Cambiar de vista principal
     function switchTab(sectionId, element) {
       document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
       document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
@@ -551,7 +833,28 @@
       element.classList.add('active');
     }
 
-    // Chart de Hábitos (Líneas)
+    // Cambiar pestaña Memento Mori (Personal vs Profesional)
+    function switchMementoView(view, btn) {
+      const parent = btn.parentElement;
+      parent.querySelectorAll('.segment-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      if (view === 'personal') {
+        document.getElementById('memento-personal').style.display = 'block';
+        document.getElementById('memento-profesional').style.display = 'none';
+      } else {
+        document.getElementById('memento-personal').style.display = 'none';
+        document.getElementById('memento-profesional').style.display = 'block';
+      }
+    }
+
+    function switchMetasView(view, btn) {
+      const parent = btn.parentElement;
+      parent.querySelectorAll('.segment-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    // Chart 1: Hábitos Semanal (Líneas)
     const ctxHabits = document.getElementById('habitsChart').getContext('2d');
     new Chart(ctxHabits, {
       type: 'line',
@@ -561,9 +864,10 @@
           label: '% Cumplimiento',
           data: [80, 100, 70, 90, 85, 100, 88],
           borderColor: '#ff6b00',
-          backgroundColor: 'rgba(255, 107, 0, 0.1)',
+          backgroundColor: 'rgba(255, 107, 0, 0.15)',
           fill: true,
-          tension: 0.3
+          tension: 0.35,
+          pointBackgroundColor: '#ff6b00'
         }]
       },
       options: {
@@ -575,7 +879,52 @@
       }
     });
 
-    // Chart de Rueda de la Vida
+    // Chart 2: Evolución Mensual de Consistencia (Estadísticas)
+    const ctxEvolution = document.getElementById('evolutionChart').getContext('2d');
+    new Chart(ctxEvolution, {
+      type: 'line',
+      data: {
+        labels: ['Ene', 'Feb', 'Mar', 'Abr'],
+        datasets: [{
+          label: 'Cumplimiento Promedio',
+          data: [65, 78, 82, 88.7],
+          borderColor: '#22c55e',
+          backgroundColor: 'rgba(34, 197, 94, 0.15)',
+          fill: true,
+          tension: 0.3
+        }]
+      },
+      options: {
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { grid: { display: false }, ticks: { color: '#a1a1aa' } },
+          y: { min: 50, max: 100, grid: { color: '#27272a' }, ticks: { color: '#a1a1aa' } }
+        }
+      }
+    });
+
+    // Chart 3: Distribución del Tiempo (Doughnut)
+    const ctxDistribution = document.getElementById('distributionChart').getContext('2d');
+    new Chart(ctxDistribution, {
+      type: 'doughnut',
+      data: {
+        labels: ['Trabajo / Código', 'Ejercicio', 'Lectura / Estudio', 'Meditación'],
+        datasets: [{
+          data: [45, 20, 20, 15],
+          backgroundColor: ['#3b82f6', '#ff6b00', '#a855f7', '#22c55e'],
+          borderWidth: 2,
+          borderColor: '#18181b'
+        }]
+      },
+      options: {
+        plugins: {
+          legend: { position: 'bottom', labels: { color: '#a1a1aa', font: { size: 10 } } }
+        },
+        cutout: '65%'
+      }
+    });
+
+    // Chart 4: Rueda de la Vida (Radar)
     const ctxWheel = document.getElementById('wheelChart').getContext('2d');
     new Chart(ctxWheel, {
       type: 'radar',
@@ -594,7 +943,7 @@
       }
     });
 
-    // Chart Finanzas
+    // Chart 5: Finanzas (Barras)
     const ctxFinance = document.getElementById('financeChart').getContext('2d');
     new Chart(ctxFinance, {
       type: 'bar',
@@ -611,8 +960,8 @@
       }
     });
 
-    // Temporizador
-    let timerInterval;
+    // Temporizador Logic
+    let timerInterval = null;
     let secondsLeft = 1500;
     
     function toggleTimer() {
@@ -628,6 +977,13 @@
           if (secondsLeft <= 0) clearInterval(timerInterval);
         }, 1000);
       }
+    }
+
+    function resetTimer() {
+      clearInterval(timerInterval);
+      timerInterval = null;
+      secondsLeft = 1500;
+      document.getElementById('timer').innerText = "25:00";
     }
   </script>
 </body>
